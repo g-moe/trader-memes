@@ -6,12 +6,17 @@ const DOUBLE_TOP_TAGS = ['double', 'double-top', 'dt'] as const;
 
 const FTV_TAGS = ['friday', 'ftv'] as const;
 
+const SHORT_HOLE_TAGS = ['short', 'short-hole', 'short-low', 'ss'] as const;
+
+const VWAP_TAGS = ['vwap'] as const;
+
+const WICK_TEST_TAGS = ['wick', 'wick-test'] as const;
+
 const MARKET_TAGS = [
 	'chop',
 	'margin',
 	'margin-call',
 	'pa',
-	'pa-sucks',
 	'pullback',
 	'range',
 	'slow',
@@ -29,13 +34,10 @@ const MISC_TAGS = [
 	'fool',
 	'kermit',
 	'namaste',
-	'plan',
-	'skill-issue',
 	'slippage',
 	'stream',
 	'tea',
 	'tilt',
-	'trades',
 	'yoda'
 ] as const;
 
@@ -80,7 +82,7 @@ export type Meme = {
 export const MEMES = {
 	'ahh-shit-ftv-friday': {
 		filename: 'ahh-shit-ftv-friday.png',
-		tags: ['slow-grind', 'trend', 'ftv', 'friday'],
+		tags: ['slow-grind', 'trend', ...FTV_TAGS],
 		title: 'Ahh Shit. FTV.'
 	},
 	'ahh-shit-the-slow-grind': {
@@ -110,7 +112,7 @@ export const MEMES = {
 	},
 	'double-top': {
 		filename: 'double-top.png',
-		tags: ['double', 'double-top', 'dt'],
+		tags: [...DOUBLE_TOP_TAGS],
 		title: 'Double Top'
 	},
 	'es-on-vacay': {
@@ -125,17 +127,17 @@ export const MEMES = {
 	},
 	'friday-not-ftv': {
 		filename: 'friday-not-ftv.png',
-		tags: ['friday', 'ftv'],
+		tags: [...FTV_TAGS],
 		title: 'Friday, Not FTV'
 	},
 	'ftv-friday-with-a-side-of-snow': {
 		filename: 'ftv-friday-with-a-side-of-snow.png',
-		tags: ['friday', 'ftv'],
+		tags: [...FTV_TAGS],
 		title: 'FTV Friday with a side of snow'
 	},
 	'ftv-hype': {
 		filename: 'ftv-hype.png',
-		tags: ['friday', 'ftv'],
+		tags: [...FTV_TAGS],
 		title: 'FTV Hype'
 	},
 	funded: {
@@ -145,12 +147,12 @@ export const MEMES = {
 	},
 	'got-any-ftv': {
 		filename: 'got-any-ftv.png',
-		tags: ['friday', 'ftv'],
+		tags: [...FTV_TAGS],
 		title: 'Got Any FTV?'
 	},
 	'got-any-vwap': {
 		filename: 'got-any-vwap.png',
-		tags: ['vwap'],
+		tags: [...VWAP_TAGS],
 		title: 'Got Any VWAP?'
 	},
 	'i-need-a-beer': {
@@ -165,7 +167,7 @@ export const MEMES = {
 	},
 	'lured-in-again': {
 		filename: 'lured-in-again.png',
-		tags: ['short', 'short-hole', 'short-low', 'ss'],
+		tags: [...SHORT_HOLE_TAGS],
 		title: 'Lured In Again'
 	},
 	'margin-call': {
@@ -200,7 +202,7 @@ export const MEMES = {
 	},
 	'ol-reliable': {
 		filename: 'ol-reliable.png',
-		tags: ['friday', 'ftv'],
+		tags: [...FTV_TAGS],
 		title: "Ol' Reliable"
 	},
 	'one-simply-waits-for-stop-run': {
@@ -230,7 +232,7 @@ export const MEMES = {
 	},
 	'self-sabotage': {
 		filename: 'self-sabotage.png',
-		tags: ['short', 'short-hole', 'short-low', 'ss'],
+		tags: [...SHORT_HOLE_TAGS],
 		title: 'Self Sabotage'
 	},
 	'sierra-hero': {
@@ -245,7 +247,7 @@ export const MEMES = {
 	},
 	'smart-vs-dumb-bear': {
 		filename: 'smart-vs-dumb-bear.png',
-		tags: ['bear', 'fakeout', 'onh-fakeout', 'short', 'short-low', 'ss'],
+		tags: ['bear', 'fakeout', 'onh-fakeout', ...SHORT_HOLE_TAGS],
 		title: 'Smart vs Dumb Bear'
 	},
 	'thanks-rithmic': {
@@ -260,17 +262,17 @@ export const MEMES = {
 	},
 	'that-vwap-feeling': {
 		filename: 'that-vwap-feeling.png',
-		tags: ['feel', 'vwap'],
+		tags: [...VWAP_TAGS, 'feel'],
 		title: 'That VWAP Feeling'
 	},
 	'the-most-interesting-hole-shorter': {
 		filename: 'the-most-interesting-hole-shorter.png',
-		tags: ['short', 'short-hole', 'short-low', 'ss'],
+		tags: [...SHORT_HOLE_TAGS],
 		title: 'The most interesting hole-shorter'
 	},
 	'the-return-of-the-vwap': {
 		filename: 'the-return-of-the-vwap.png',
-		tags: ['vwap'],
+		tags: [...VWAP_TAGS],
 		title: 'The Return of The VWAP'
 	},
 	'the-uppies-are-coming': {
@@ -285,22 +287,22 @@ export const MEMES = {
 	},
 	'v-w-a-p': {
 		filename: 'v-w-a-p.png',
-		tags: ['vwap'],
+		tags: [...VWAP_TAGS],
 		title: 'V W A P !'
 	},
 	vwap: {
 		filename: 'vwap.png',
-		tags: ['vwap'],
+		tags: [...VWAP_TAGS],
 		title: 'VWAP.'
 	},
 	'vwap-chad': {
 		filename: 'vwap-chad.png',
-		tags: ['chad', 'ict', 'vwap'],
+		tags: [...VWAP_TAGS, 'chad', 'ict'],
 		title: 'VWAP Chad'
 	},
 	'vwap-maxxer': {
 		filename: 'vwap-maxxer.png',
-		tags: ['chad', 'fvg', 'ict', 'vwap'],
+		tags: [...VWAP_TAGS, 'chad', 'fvg', 'ict'],
 		title: 'VWAP Maxxer'
 	},
 	'we-no-fool': {
@@ -310,7 +312,7 @@ export const MEMES = {
 	},
 	'wick-test': {
 		filename: 'wick-test.png',
-		tags: ['wick', 'wick-test'],
+		tags: [...WICK_TEST_TAGS],
 		title: 'Wick Test.'
 	}
 } as const satisfies Record<string, Meme>;

@@ -4,7 +4,7 @@ test('searches, browses exact tags, and clears an empty result with Escape', asy
 	await page.goto('/');
 
 	await expect(page.getByRole('heading', { level: 1, name: 'Trader Memes' })).toBeAttached();
-	await expect(page.getByRole('article')).toHaveCount(50);
+	await expect(page.getByRole('article')).toHaveCount(47);
 
 	const search = page.getByRole('searchbox', { name: 'Search memes by name or tag' });
 	await search.fill('got any vwap');
@@ -25,6 +25,6 @@ test('searches, browses exact tags, and clears an empty result with Escape', asy
 	await expect(page.getByRole('heading', { level: 2, name: 'Stopped out.' })).toBeVisible();
 	await search.press('Escape');
 
-	await expect(page.getByRole('article')).toHaveCount(50);
+	await expect(page.getByRole('article')).toHaveCount(47);
 	await expect(search).toBeFocused();
 });

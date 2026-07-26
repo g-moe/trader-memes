@@ -13,7 +13,8 @@
 			"Made image copying retain browser permission while images load, acknowledge successful copies with a fixed-width ticker animation, and present failures in a red-bordered toast at the top center of the page.",
 			"Removed the sticky header separator and fixed the browser favicon by placing it in the directory served by Vite.",
 			"Increased the spacing between masonry-grid meme cards across desktop and mobile layouts.",
-			"Switched the mobile gallery to one card per row at an earlier 800-pixel breakpoint."
+			"Switched the mobile gallery to one card per row at an earlier 800-pixel breakpoint.",
+			"Composed shared meme tag groups in the registry while keeping meme-specific tags inline."
 		]
 	}
 }

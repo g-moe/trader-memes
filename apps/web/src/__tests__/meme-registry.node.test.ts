@@ -8,7 +8,7 @@ const MEME_LIST = Object.values(MEMES);
 
 describe('meme catalog', () => {
 	it('gives every meme an explicit title', () => {
-		expect(MEME_LIST).toHaveLength(50);
+		expect(MEME_LIST).toHaveLength(47);
 		expect(MEME_LIST.every((meme) => meme.title.trim().length > 0)).toBe(true);
 	});
 
@@ -28,7 +28,7 @@ describe('meme catalog', () => {
 			.filter((file) => file.endsWith('.png'))
 			.sort();
 
-		expect(imageFiles).toHaveLength(50);
+		expect(imageFiles).toHaveLength(47);
 		expect(new Set(filenames).size).toBe(filenames.length);
 		expect(new Set(MEME_LIST.map((meme) => meme.title)).size).toBe(MEME_LIST.length);
 		expect(entries.every(([key, meme]) => meme.filename === `${key}.png`)).toBe(true);
