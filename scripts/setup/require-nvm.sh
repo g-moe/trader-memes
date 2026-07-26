@@ -3,13 +3,14 @@
 set -euo pipefail
 
 require_nvm() {
-	repo_root=${1:-$(pwd)}
+	local repo_root=${1:-$(pwd)}
 
 	if [ ! -f "$repo_root/.nvmrc" ]; then
 		echo "Missing .nvmrc. Cannot determine required Node version."
 		exit 1
 	fi
 
+	local required_node_version
 	required_node_version="$(tr -d '[:space:]' < "$repo_root/.nvmrc")"
 
 	if [ -z "$required_node_version" ]; then
@@ -17,21 +18,21 @@ require_nvm() {
 		exit 1
 	fi
 
-	NVM_FOUND=false
+	local nvm_found=false
 
 	if [ -n "${NVM_DIR:-}" ] && [ -s "$NVM_DIR/nvm.sh" ]; then
 		. "$NVM_DIR/nvm.sh"
-		NVM_FOUND=true
+		nvm_found=true
 	fi
 
-	if [ "$NVM_FOUND" = false ] && [ -s "$HOME/.nvm/nvm.sh" ]; then
+	if [ "$nvm_found" = false ] && [ -s "$HOME/.nvm/nvm.sh" ]; then
 		. "$HOME/.nvm/nvm.sh"
 		if command -v nvm >/dev/null 2>&1; then
-			NVM_FOUND=true
+			nvm_found=true
 		fi
 	fi
 
-	if [ "$NVM_FOUND" = false ]; then
+	if [ "$nvm_found" = false ]; then
 		echo "nvm is required for local setup but was not found."
 		echo "Install nvm and rerun this script:"
 		echo "  curl -fsSL https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.3/install.sh | bash"
@@ -39,6 +40,7 @@ require_nvm() {
 		exit 1
 	fi
 
+	local current_node_version
 	current_node_version="$(node -p 'process.versions.node')"
 	if [ "$current_node_version" != "$required_node_version" ]; then
 		echo "The current shell is not using the required Node version."

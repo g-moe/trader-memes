@@ -11,7 +11,8 @@ require_corepack() {
 }
 
 activate_corepack() {
-	repo_root=${1:-$(pwd)}
+	local repo_root=${1:-$(pwd)}
+	local required_package_manager
 	required_package_manager="$(awk -F'"' '/"packageManager"[[:space:]]*:/ { print $4; exit }' "$repo_root/package.json")"
 
 	if [ -z "$required_package_manager" ]; then

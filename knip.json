@@ -1,5 +1,4 @@
 {
 	"$schema": "./node_modules/knip/schema.json",
-	"ignoreDependencies": ["@js-temporal/polyfill", "tsx", "zod"],
 	"ignoreFiles": ["playground/**"]
 }

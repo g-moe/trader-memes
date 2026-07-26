@@ -2,7 +2,7 @@ import type { Meme } from '../meme-registry';
 
 import { describe, expect, it } from 'vitest';
 
-import { filterMemes } from '../search';
+import { filterMemes, filterMemesByTag } from '../search';
 
 const MEMES = [
 	{ path: '/vwap-elmo-fire.png', tags: ['vwap', 'elmo'], title: 'VWAP Is Lit' },
@@ -21,10 +21,22 @@ describe('filterMemes', () => {
 	it('matches names and tags without caring about case', () => {
 		expect(filterMemes(MEMES, 'VWAP')).toEqual([MEMES[0]]);
 		expect(filterMemes(MEMES, 'discipline')).toEqual([MEMES[1]]);
+		expect(filterMemes(MEMES, 'DISCIPLINE')).toEqual([MEMES[1]]);
 	});
 
 	it('requires every search term to match', () => {
 		expect(filterMemes(MEMES, 'trend discipline')).toEqual([MEMES[1]]);
 		expect(filterMemes(MEMES, 'trend elmo')).toEqual([]);
+	});
+
+	it('matches selected tags exactly', () => {
+		const collision = {
+			path: '/conviction.png',
+			tags: ['conviction'],
+			title: 'Conviction'
+		} as const satisfies Meme;
+
+		expect(filterMemesByTag([...MEMES, collision], 'discipline')).toEqual([MEMES[1]]);
+		expect(filterMemesByTag([...MEMES, collision], 'ict')).toEqual([]);
 	});
 });

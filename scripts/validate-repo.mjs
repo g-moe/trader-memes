@@ -20,6 +20,7 @@ const IGNORED_DIRECTORIES = new Set([
 ]);
 const TEST_FILE_PATTERN = /\.(?:spec|test)\.[cm]?[jt]sx?$/;
 const WORKSPACE_ROOTS = ['apps', 'packages'];
+const DATE_PATTERN = /^\d{4}-\d{2}-\d{2}$/;
 
 const getFiles = (directory) =>
 	readdirSync(directory, { withFileTypes: true }).flatMap((entry) => {
@@ -47,6 +48,54 @@ const getMissingScripts = (manifestPath) => {
 	return REQUIRED_SCRIPTS.filter((script) => !scripts[script]);
 };
 
+const isObject = (value) => typeof value === 'object' && value !== null && !Array.isArray(value);
+
+const hasOnlyProperties = (value, allowedProperties) =>
+	Object.keys(value).every((property) => allowedProperties.includes(property));
+
+const isRecordItem = (value) =>
+	isObject(value) &&
+	hasOnlyProperties(value, ['note', 'topic']) &&
+	typeof value.note === 'string' &&
+	value.note.length >= 5 &&
+	typeof value.topic === 'string' &&
+	value.topic.length >= 3;
+
+const hasValidRecordHeader = (record) =>
+	Number.isInteger(record.version) &&
+	record.version >= 1 &&
+	typeof record.updated === 'string' &&
+	DATE_PATTERN.test(record.updated);
+
+const validateAdrs = (record) =>
+	isObject(record) &&
+	hasOnlyProperties(record, ['$schema', 'decisions', 'technicalDebt', 'updated', 'version']) &&
+	hasValidRecordHeader(record) &&
+	Array.isArray(record.decisions) &&
+	record.decisions.every(isRecordItem) &&
+	Array.isArray(record.technicalDebt) &&
+	record.technicalDebt.every(isRecordItem);
+
+const validateChanges = (record) =>
+	isObject(record) &&
+	hasOnlyProperties(record, ['$schema', 'entries', 'updated', 'version']) &&
+	hasValidRecordHeader(record) &&
+	isObject(record.entries) &&
+	Object.entries(record.entries).every(
+		([branch, changes]) =>
+			branch.length > 0 &&
+			Array.isArray(changes) &&
+			changes.length > 0 &&
+			new Set(changes).size === changes.length &&
+			changes.every((change) => typeof change === 'string' && change.length >= 5)
+	);
+
+const getRecordFailure = (recordPath, validator) => {
+	const record = JSON.parse(readFileSync(recordPath, 'utf8'));
+
+	return validator(record) ? [] : [`${recordPath}: does not match its repository schema`];
+};
+
 const workspaceFailures = getWorkspaceManifests().flatMap((manifestPath) => {
 	const missingScripts = getMissingScripts(manifestPath);
 
@@ -65,7 +114,11 @@ const testFileFailures = getFiles('.').flatMap((filePath) => {
 		: [`${filePath}: test file must end in ${ALLOWED_TEST_SUFFIXES.join(', ')}`];
 });
 
-const failures = [...workspaceFailures, ...testFileFailures];
+const recordFailures = [
+	...getRecordFailure('repo-adrs.json', validateAdrs),
+	...getRecordFailure('repo-changes.json', validateChanges)
+];
+const failures = [...workspaceFailures, ...testFileFailures, ...recordFailures];
 
 if (failures.length > 0) {
 	throw new Error(`Repository validation failed:\n${failures.join('\n')}`);

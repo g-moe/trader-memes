@@ -81,7 +81,7 @@ export const startAmbientBackground = () => {
 	canvas.setAttribute('aria-hidden', 'true');
 	document.body.prepend(canvas);
 
-	const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+	const motionPreference = window.matchMedia('(prefers-reduced-motion: reduce)');
 	let animationFrame: number | undefined;
 
 	const animate = (time: number) => {
@@ -89,31 +89,50 @@ export const startAmbientBackground = () => {
 		animationFrame = window.requestAnimationFrame(animate);
 	};
 	const drawStillFrame = () => drawAmbientBackground(canvas, context, 0);
-	const handleVisibilityChange = () => {
-		if (document.hidden) {
-			if (animationFrame !== undefined) {
-				window.cancelAnimationFrame(animationFrame);
-			}
-
-			animationFrame = undefined;
-		} else if (!reduceMotion && animationFrame === undefined) {
-			animationFrame = window.requestAnimationFrame(animate);
-		}
-	};
-
-	if (reduceMotion) {
-		drawStillFrame();
-		window.addEventListener('resize', drawStillFrame);
-	} else {
-		animationFrame = window.requestAnimationFrame(animate);
-		document.addEventListener('visibilitychange', handleVisibilityChange);
-	}
-
-	return () => {
+	const stopAnimation = () => {
 		if (animationFrame !== undefined) {
 			window.cancelAnimationFrame(animationFrame);
 		}
 
+		animationFrame = undefined;
+	};
+	const startAnimation = () => {
+		if (animationFrame === undefined && !document.hidden) {
+			animationFrame = window.requestAnimationFrame(animate);
+		}
+	};
+	const handleVisibilityChange = () => {
+		if (document.hidden) {
+			stopAnimation();
+		} else if (!motionPreference.matches) {
+			startAnimation();
+		}
+	};
+	const handleMotionChange = () => {
+		stopAnimation();
+		window.removeEventListener('resize', drawStillFrame);
+
+		if (motionPreference.matches) {
+			drawStillFrame();
+			window.addEventListener('resize', drawStillFrame);
+		} else {
+			startAnimation();
+		}
+	};
+
+	motionPreference.addEventListener('change', handleMotionChange);
+	document.addEventListener('visibilitychange', handleVisibilityChange);
+
+	if (motionPreference.matches) {
+		drawStillFrame();
+		window.addEventListener('resize', drawStillFrame);
+	} else {
+		startAnimation();
+	}
+
+	return () => {
+		stopAnimation();
+		motionPreference.removeEventListener('change', handleMotionChange);
 		window.removeEventListener('resize', drawStillFrame);
 		document.removeEventListener('visibilitychange', handleVisibilityChange);
 		canvas.remove();

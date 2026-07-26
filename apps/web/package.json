@@ -5,9 +5,10 @@
 	"type": "module",
 	"scripts": {
 		"build": "vite build",
-		"coverage": "vitest run --coverage --config ../../vitest.config.ts --project node",
+		"coverage": "vitest run --coverage --config ../../vitest.config.ts --project node --project jsdom",
 		"dev": "vite",
-		"test": "vitest run --config ../../vitest.config.ts --project node",
+		"preview": "vite preview",
+		"test": "vitest run --config ../../vitest.config.ts --project node --project jsdom",
 		"typecheck": "tsc --noEmit"
 	},
 	"devDependencies": {

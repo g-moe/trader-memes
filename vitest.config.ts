@@ -3,6 +3,8 @@ import { defineConfig } from 'vitest/config';
 export default defineConfig({
 	test: {
 		coverage: {
+			exclude: ['src/main.ts'],
+			include: ['src/**/*.ts'],
 			provider: 'v8',
 			thresholds: {
 				branches: 90,
@@ -26,14 +28,6 @@ export default defineConfig({
 					environment: 'jsdom',
 					include: ['**/*.jsdom.test.ts'],
 					name: 'jsdom'
-				}
-			},
-			{
-				extends: true,
-				test: {
-					environment: 'node',
-					include: ['**/*.integration.test.ts'],
-					name: 'integration'
 				}
 			}
 		]

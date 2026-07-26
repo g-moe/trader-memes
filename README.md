@@ -13,6 +13,18 @@ corepack pnpm dev
 Open the local address shown in the terminal. Meme paths, titles, and tags live in
 `apps/web/src/meme-registry.ts`.
 
+## Validate the checkpoint
+
+Install Chromium once, then run the same complete gate used before pushes and in CI:
+
+```sh
+corepack pnpm test:e2e:install
+corepack pnpm validate
+```
+
+The gate checks repository records, linting, formatting, types, unit and browser tests,
+at least 90% source coverage, unused code, and the production build.
+
 ## Repository
 
 This project uses the `g-moe/.template` pnpm and TypeScript workspace.
@@ -22,10 +34,10 @@ This project uses the `g-moe/.template` pnpm and TypeScript workspace.
 - `packages/` contains reusable workspaces if they are needed later.
 - `scripts/` contains repository setup and maintenance automation.
 
-Useful checks:
+Individual checks are also available when diagnosing a failure:
 
 ```sh
-corepack pnpm check
+corepack pnpm test
 corepack pnpm coverage
-corepack pnpm build
+corepack pnpm test:e2e
 ```

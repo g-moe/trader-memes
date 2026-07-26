@@ -13,11 +13,11 @@
 		},
 		{
 			"topic": "test-file-conventions",
-			"note": "Route *.node.test.ts and *.jsdom.test.ts unit tests to their named Vitest environments, run *.integration.test.ts separately in Node, and reserve *.e2e.test.ts for repository-level Playwright tests in Chromium."
+			"note": "Route *.node.test.ts and *.jsdom.test.ts unit tests to their named Vitest environments, and reserve *.e2e.test.ts for repository-level Playwright tests in Chromium."
 		},
 		{
-			"topic": "root-tooling-dependencies",
-			"note": "Keep the root dependency set available to repository tooling and ignore dependencies that are intentionally not imported by a workspace."
+			"topic": "browser-controller",
+			"note": "Keep main.ts as the browser composition root and place gallery markup, state, events, clipboard handling, and cleanup in one meme-browser controller."
 		},
 		{
 			"topic": "type-import-style",

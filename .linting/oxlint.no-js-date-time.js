@@ -17,6 +17,18 @@ const ALLOWED_INTL_MEMBERS = new Set([
 	'getCanonicalLocales'
 ]);
 
+const getMemberName = (node) => {
+	if (!node.computed && node.property.type === 'Identifier') {
+		return node.property.name;
+	}
+
+	return node.computed &&
+		node.property.type === 'Literal' &&
+		typeof node.property.value === 'string'
+		? node.property.value
+		: undefined;
+};
+
 const isBanned = (state, node) => {
 	switch (node.type) {
 		case 'Identifier':
@@ -27,12 +39,14 @@ const isBanned = (state, node) => {
 			return isBanned(state, node.callee);
 
 		case 'MemberExpression':
-			if (node.computed || node.property.type !== 'Identifier') {
+			const memberName = getMemberName(node);
+
+			if (!memberName) {
 				return false;
 			}
 
 			if (node.object.type === 'Identifier' && node.object.name === INTL_GLOBAL) {
-				return !ALLOWED_INTL_MEMBERS.has(node.property.name);
+				return !ALLOWED_INTL_MEMBERS.has(memberName);
 			}
 
 			return isBanned(state, node.object);
@@ -43,7 +57,8 @@ const isBanned = (state, node) => {
 };
 
 const isReportableMemberExpression = (node) =>
-	!node.computed && node.property.type === 'Identifier' && node.parent?.type !== 'CallExpression';
+	getMemberName(node) !== undefined &&
+	(node.parent?.type !== 'CallExpression' || node.parent.callee !== node);
 
 const trackAlias = (state, id, init) => {
 	if (
