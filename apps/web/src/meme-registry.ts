@@ -78,6 +78,11 @@ export type Meme = {
 };
 
 export const MEMES = {
+	'ahh-shit-ftv-friday': {
+		filename: 'ahh-shit-ftv-friday.png',
+		tags: ['slow-grind', 'trend', 'ftv', 'friday'],
+		title: 'Ahh Shit. FTV.'
+	},
 	'ahh-shit-the-slow-grind': {
 		filename: 'ahh-shit-the-slow-grind.png',
 		tags: ['slow-grind', 'trend'],
@@ -87,11 +92,6 @@ export const MEMES = {
 		filename: 'awchutally-prop-deals.png',
 		tags: ['awchutally', 'prop'],
 		title: 'Awchutally Prop Deals'
-	},
-	'carl-hole-shorter': {
-		filename: 'carl-hole-shorter.png',
-		tags: ['short', 'short-hole', 'short-low', 'ss'],
-		title: 'Carl - Hole Shorter'
 	},
 	'cobd-gang': {
 		filename: 'cobd-gang.png',
@@ -122,11 +122,6 @@ export const MEMES = {
 		filename: 'feel-aths.png',
 		tags: ['ath', 'feel'],
 		title: 'Feel ATHs'
-	},
-	'friday-crawl': {
-		filename: 'friday-crawl.png',
-		tags: ['friday', 'ftv', 'slow-grind'],
-		title: 'Friday Crawl'
 	},
 	'friday-not-ftv': {
 		filename: 'friday-not-ftv.png',
@@ -163,11 +158,6 @@ export const MEMES = {
 		tags: ['prop', 'tilt'],
 		title: 'I need a beer.'
 	},
-	'i-suck': {
-		filename: 'i-suck.png',
-		tags: ['pa', 'pa-sucks', 'skill-issue'],
-		title: 'I Suck'
-	},
 	'just-keep-trending-swimming': {
 		filename: 'just-keep-trending-swimming.png',
 		tags: ['bull', 'trend'],
@@ -182,11 +172,6 @@ export const MEMES = {
 		filename: 'margin-call.png',
 		tags: ['farley', 'margin', 'margin-call', 'tilt'],
 		title: 'Margin Call'
-	},
-	'master-planner': {
-		filename: 'master-planner.png',
-		tags: ['plan', 'trades'],
-		title: 'Master Planner'
 	},
 	namaste: {
 		filename: 'namaste.png',
