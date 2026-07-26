@@ -1,64 +1,72 @@
-export const TAGS = [
-	'ath',
-	'awchutally',
-	'bear',
-	'bid',
-	'bull',
-	'chad',
+const BEAR_TAGS = ['bear', 'loss', 'short', 'short-hole', 'short-low', 'ss'] as const;
+
+const BULL_TAGS = ['ath', 'bid', 'bull', 'slow-grind', 'trend', 'uppies'] as const;
+
+const DOUBLE_TOP_TAGS = ['double', 'double-top', 'dt'] as const;
+
+const FTV_TAGS = ['friday', 'ftv'] as const;
+
+const MARKET_TAGS = [
 	'chop',
+	'margin',
+	'margin-call',
+	'pa',
+	'pa-sucks',
+	'pullback',
+	'range',
+	'slow',
+	'volatile'
+] as const;
+
+const MISC_TAGS = [
+	'awchutally',
+	'chad',
 	'cobd',
 	'debt',
-	'double',
-	'double-top',
-	'dt',
-	'es',
 	'fakeout',
 	'farley',
 	'feel',
 	'fool',
-	'friday',
-	'ftv',
-	'funded',
-	'fvg',
-	'ict',
 	'kermit',
-	'loss',
-	'margin',
-	'margin-call',
 	'namaste',
-	'nq',
-	'onh-fakeout',
-	'pa',
-	'pa-sucks',
-	'pattern',
 	'plan',
-	'prop',
-	'pullback',
-	'range',
-	'rithmic',
-	'short',
-	'short-hole',
-	'short-low',
-	'sierra',
 	'skill-issue',
 	'slippage',
-	'slow',
-	'slow-grind',
-	'ss',
-	'stop-run',
 	'stream',
 	'tea',
 	'tilt',
 	'trades',
-	'tradester',
-	'trend',
-	'uppies',
-	'volatile',
+	'yoda'
+] as const;
+
+const PLATFORM_TAGS = ['rithmic', 'sierra', 'tradester'] as const;
+
+const PROP_TAGS = ['funded', 'prop'] as const;
+
+const STRATEGY_TAGS = [
+	'fvg',
+	'ict',
+	'onh-fakeout',
+	'pattern',
+	'stop-run',
 	'vwap',
 	'wick',
-	'wick-test',
-	'ym',
-	'yoda'
+	'wick-test'
+] as const;
+
+const SYMBOL_TAGS = ['es', 'nq', 'ym'] as const;
+
+export const TAGS = [
+	...BEAR_TAGS,
+	...BULL_TAGS,
+	...DOUBLE_TOP_TAGS,
+	...FTV_TAGS,
+	...MARKET_TAGS,
+	...MISC_TAGS,
+	...PLATFORM_TAGS,
+	...PROP_TAGS,
+	...STRATEGY_TAGS,
+	...SYMBOL_TAGS
 ] as const;
 
 type MemeTag = (typeof TAGS)[number];

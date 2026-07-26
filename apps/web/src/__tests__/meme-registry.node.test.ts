@@ -17,8 +17,7 @@ describe('meme catalog', () => {
 
 		expect(new Set(TAGS).size).toBe(TAGS.length);
 		expect(TAGS.every((tag) => !/\s/.test(tag))).toBe(true);
-		expect([...TAGS]).toEqual([...TAGS].sort());
-		expect(usedTags).toEqual([...TAGS]);
+		expect(usedTags).toEqual([...TAGS].sort());
 		expect(MEME_LIST.every((meme) => new Set(meme.tags).size === meme.tags.length)).toBe(true);
 	});
 

@@ -1,28 +1,15 @@
 {
 	"$schema": "./schema/repo-changes.schema.json",
 	"version": 1,
-	"updated": "2026-07-25",
+	"updated": "2026-07-26",
 	"entries": {
 		"main": [
-			"Replaced the loose meme array with one typed registry backed by a canonical readonly tag list.",
-			"Rewrote all 75 meme titles as short trader-native punchlines and standardized every tag as a single searchable token.",
-			"Kept meme tags visible on mobile so search context remains available at every screen size.",
-			"Removed interface transition delays so every interaction responds immediately.",
-			"Combined the brand and search into one compact sticky header for continuous access while browsing.",
-			"Simplified the search field to a plain Search prompt without a shortcut badge.",
-			"Simplified the home page to the brand header, search field, meme gallery, and minimal footer.",
-			"Corrected titles and tags for image files whose filenames did not match their actual meme content.",
-			"Started Trader Memes from the g-moe/.template TypeScript workspace.",
-			"Added a responsive one-page gallery with live name and tag search, quick filters, and an empty state.",
-			"Added copy-image behavior with a download fallback for unsupported browsers.",
-			"Cataloged all 75 existing memes in one readonly TypeScript configuration.",
-			"Renamed workspace validation to repository validation across tooling and documentation.",
-			"Added filename-based Node and jsdom suites with full-source coverage enforcement.",
-			"Added a required Chromium journey for search, exact tag browsing, empty results, and clearing.",
-			"Split browser behavior from the entry point, corrected exact tag matching, and hardened clipboard and motion lifecycle boundaries.",
-			"Added accessible result announcements, distinct copy-button names, and a page heading.",
-			"Made repository validation enforce project-record shape and removed unused configuration, dependencies, and duplicate catalog notes.",
-			"Recorded the refactor findings, resolutions, coverage, and final verification in a durable quality checkpoint."
+			"Built Trader Memes as a responsive one-page gallery for 75 curated meme images.",
+			"Consolidated the catalog into one typed registry with trader-focused titles, consistent searchable tags, and corrected image metadata.",
+			"Added live search, quick tag filters, empty results, accessible announcements, and copy-image behavior with a download fallback.",
+			"Streamlined the site around a compact sticky header, always-visible tags, immediate interactions, a minimal footer, and matching browser and home-screen icons.",
+			"Established repository validation with full-source test coverage, a required Chromium user journey, project-record checks, and removal of unused code and configuration.",
+			"Matched direct unit-test file names to the source files they cover."
 		]
 	}
 }
