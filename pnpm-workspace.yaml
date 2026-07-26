@@ -1,0 +1,11 @@
+packages:
+  - apps/*
+  - packages/*
+
+allowBuilds:
+  esbuild: true
+
+minimumReleaseAge: 10080 # 1 week
+
+onlyBuiltDependencies:
+  - esbuild

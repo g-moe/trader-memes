@@ -1,0 +1,54 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "validate",
+			"type": "shell",
+			"command": "corepack pnpm validate",
+			"group": "test",
+			"problemMatcher": "$tsc"
+		},
+		{
+			"label": "typecheck",
+			"type": "shell",
+			"command": "corepack pnpm typecheck",
+			"group": "test",
+			"problemMatcher": "$tsc"
+		},
+		{
+			"label": "format:check",
+			"type": "shell",
+			"command": "corepack pnpm format:check",
+			"group": "test",
+			"problemMatcher": []
+		},
+		{
+			"label": "lint",
+			"type": "shell",
+			"command": "corepack pnpm lint",
+			"group": "test",
+			"problemMatcher": []
+		},
+		{
+			"label": "check",
+			"type": "shell",
+			"command": "corepack pnpm check",
+			"group": "test",
+			"problemMatcher": "$tsc"
+		},
+		{
+			"label": "test",
+			"type": "shell",
+			"command": "corepack pnpm test",
+			"group": "test",
+			"problemMatcher": []
+		},
+		{
+			"label": "build",
+			"type": "shell",
+			"command": "corepack pnpm build",
+			"group": "build",
+			"problemMatcher": []
+		}
+	]
+}

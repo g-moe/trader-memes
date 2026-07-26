@@ -1,0 +1,31 @@
+{
+	"$schema": "./node_modules/oxlint/configuration_schema.json",
+	"ignorePatterns": ["coverage/**", "dist/**", "node_modules/**", "playground/**"],
+	"plugins": ["typescript", "unicorn", "oxc", "import", "vitest"],
+	"jsPlugins": [
+		{
+			"name": "custom-no-js-date-time",
+			"specifier": "./.linting/oxlint.no-js-date-time.js"
+		}
+	],
+	"rules": {
+		"import/consistent-type-specifier-style": ["error", "prefer-top-level"],
+		"no-debugger": "error",
+		"no-unused-vars": [
+			"warn",
+			{
+				"varsIgnorePattern": "^_"
+			}
+		],
+		"sort-keys": "error",
+		"typescript/consistent-type-imports": [
+			"error",
+			{
+				"fixStyle": "separate-type-imports",
+				"prefer": "type-imports"
+			}
+		],
+		"typescript/no-useless-default-assignment": "off",
+		"custom-no-js-date-time/no-js-date-time": "error"
+	}
+}

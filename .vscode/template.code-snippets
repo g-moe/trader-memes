@@ -1,0 +1,30 @@
+{
+	"comment-section": {
+		"prefix": "comment-section",
+		"body": [
+			"// ============================================================================",
+			"// ",
+			"// ============================================================================"
+		],
+		"description": "Adds Comment section separator"
+	},
+	"eslint-disable": {
+		"prefix": "eslint-disable",
+		"body": "/* eslint-disable */",
+		"description": "Adds /* eslint-disable */"
+	},
+	"eslint-next-line-disable": {
+		"prefix": "eslint-disable-next-line",
+		"body": "// eslint-disable-next-line",
+		"description": "Adds // eslint-disable-next-line"
+	},
+	"performance-log": {
+		"prefix": "performance-log",
+		"body": [
+			"console.debug('Starting time', Date.now());",
+			"const startTime = Date.now();",
+			"console.debug('Took duration ms', Date.now() - startTime);"
+		],
+		"description": "Logs performance duration with console.debug"
+	}
+}

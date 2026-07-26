@@ -1,0 +1,10 @@
+{
+	"extends": "./tsconfig.json",
+	"compilerOptions": {
+		"lib": ["DOM", "DOM.Iterable", "ES2024"],
+		"module": "Preserve",
+		"moduleResolution": "Bundler",
+		"noEmit": true,
+		"types": []
+	}
+}

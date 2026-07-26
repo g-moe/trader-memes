@@ -1,0 +1,24 @@
+{
+	"$schema": "./node_modules/oxfmt/configuration_schema.json",
+	"ignorePatterns": ["coverage/**", "dist/**", "node_modules/**", "playground/**"],
+	"printWidth": 100,
+	"semi": true,
+	"singleQuote": true,
+	"sortImports": {
+		"groups": [
+			"type",
+			{
+				"newlinesBetween": false
+			},
+			"builtin",
+			"external",
+			["internal", "subpath"],
+			["parent", "sibling", "index"],
+			"style",
+			"unknown"
+		]
+	},
+	"tabWidth": 2,
+	"trailingComma": "none",
+	"useTabs": true
+}

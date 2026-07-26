@@ -1,0 +1,32 @@
+{
+	"$schema": "./schema/repo-adrs.schema.json",
+	"version": 1,
+	"updated": "2026-07-25",
+	"decisions": [
+		{
+			"topic": "meme-catalog",
+			"note": "Keep the allowed tags, derived tag type, meme shape, and keyed meme records together in one readonly TypeScript registry so invalid tags fail type-checking."
+		},
+		{
+			"topic": "web-stack",
+			"note": "Use vanilla TypeScript, HTML, and CSS with Vite for the single-page meme browser; avoid a component framework until the product needs one."
+		},
+		{
+			"topic": "test-file-conventions",
+			"note": "Route *.node.test.ts and *.jsdom.test.ts unit tests to their named Vitest environments, run *.integration.test.ts separately in Node, and reserve *.e2e.test.ts for repository-level Playwright tests in Chromium."
+		},
+		{
+			"topic": "root-tooling-dependencies",
+			"note": "Keep the root dependency set available to repository tooling and ignore dependencies that are intentionally not imported by a workspace."
+		},
+		{
+			"topic": "type-import-style",
+			"note": "Declare type-only imports explicitly on separate import statements and sort them before value imports."
+		},
+		{
+			"topic": "typescript-compiler",
+			"note": "Use the stable native TypeScript 7 compiler and language server; do not retain the native-preview package or legacy tsserver workspace configuration."
+		}
+	],
+	"technicalDebt": []
+}

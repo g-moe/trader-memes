@@ -1,0 +1,24 @@
+{
+	"$schema": "./schema/repo-changes.schema.json",
+	"version": 1,
+	"updated": "2026-07-25",
+	"entries": {
+		"main": [
+			"Replaced the loose meme array with one typed registry backed by a canonical readonly tag list.",
+			"Rewrote all 75 meme titles as short trader-native punchlines and standardized every tag as a single searchable token.",
+			"Kept meme tags visible on mobile so search context remains available at every screen size.",
+			"Removed interface transition delays so every interaction responds immediately.",
+			"Combined the brand and search into one compact sticky header for continuous access while browsing.",
+			"Simplified the search field to a plain Search prompt without a shortcut badge.",
+			"Simplified the home page to the brand header, search field, meme gallery, and minimal footer.",
+			"Corrected titles and tags for image files whose filenames did not match their actual meme content.",
+			"Started Trader Memes from the g-moe/.template TypeScript workspace.",
+			"Added a responsive one-page gallery with live name and tag search, quick filters, and an empty state.",
+			"Added copy-image behavior with a download fallback for unsupported browsers.",
+			"Cataloged all 75 existing memes in one readonly TypeScript configuration.",
+			"Renamed workspace validation to repository validation across tooling and documentation.",
+			"Added filename-based Node, jsdom, integration, and Playwright test suites.",
+			"Added Chromium Playwright installation and end-to-end execution to CI."
+		]
+	}
+}
