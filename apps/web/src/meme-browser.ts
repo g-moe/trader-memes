@@ -9,11 +9,14 @@ type BrowserDependencies = {
 	readonly navigator: Navigator;
 };
 
-const renderCard = (meme: Meme) => `
+const renderCard = (meme: Meme) => {
+	const imagePath = `/${meme.filename}`;
+
+	return `
 	<article class="meme-card">
 		<div class="meme-card__image-wrap">
-			<img class="meme-card__image" src="${meme.path}" alt="${meme.title}" loading="lazy" />
-			<button class="copy-button" type="button" data-copy="${meme.path}" aria-label="Copy ${meme.title}">
+			<img class="meme-card__image" src="${imagePath}" alt="${meme.title}" loading="lazy" />
+			<button class="copy-button" type="button" data-copy="${imagePath}" aria-label="Copy ${meme.title}">
 				<span aria-hidden="true">⧉</span> Copy image
 			</button>
 		</div>
@@ -25,6 +28,7 @@ const renderCard = (meme: Meme) => `
 		</div>
 	</article>
 `;
+};
 
 const renderShell = () => `
 	<header class="site-header">
@@ -45,10 +49,8 @@ const renderShell = () => `
 			<p id="result-status" class="sr-only" role="status" aria-live="polite"></p>
 			<div id="meme-grid" class="meme-grid"></div>
 			<div id="empty-state" class="empty-state" hidden>
-				<span aria-hidden="true">↘</span>
+				<span class="empty-state__mark" aria-hidden="true">×</span>
 				<h2>Stopped out.</h2>
-				<p>No memes match that trade. Try a broader search.</p>
-				<button type="button" data-clear>Clear search</button>
 			</div>
 		</section>
 	</main>
@@ -184,11 +186,6 @@ export const startMemeBrowser = (
 
 		if (tagButton?.dataset.tag) {
 			setSearch(tagButton.dataset.tag, tagButton.dataset.tag);
-			return;
-		}
-
-		if (element.closest('[data-clear]')) {
-			setSearch('');
 		}
 	};
 	const handleKeydown = (event: KeyboardEvent) => {

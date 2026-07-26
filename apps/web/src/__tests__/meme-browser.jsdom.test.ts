@@ -5,8 +5,8 @@ import { afterEach, describe, expect, it, vi } from 'vitest';
 import { startMemeBrowser } from '../meme-browser';
 
 const MEMES = [
-	{ path: '/images/ict.png', tags: ['ict'], title: 'ICT Meme' },
-	{ path: '/images/conviction.png', tags: ['conviction'], title: 'Conviction Meme' }
+	{ filename: 'vwap-maxxer.png', tags: ['ict', 'vwap'], title: 'VWAP Maxxer' },
+	{ filename: 'cobd-gang.png', tags: ['cobd'], title: 'C.O.B.D GANG' }
 ] as const satisfies readonly Meme[];
 const stops: Array<() => void> = [];
 
@@ -39,13 +39,26 @@ afterEach(() => {
 });
 
 describe('startMemeBrowser', () => {
+	it('fails clearly when the app root is not mounted in the document', () => {
+		const detachedRoot = document.createElement('div');
+
+		expect(() =>
+			startMemeBrowser(detachedRoot, MEMES, {
+				clipboardItem: undefined,
+				document,
+				fetch,
+				navigator
+			})
+		).toThrow('Required meme browser element not found: #meme-search');
+	});
+
 	it('renders accessible controls and filters free-text searches', () => {
 		const { root, stop } = startBrowser();
 		const search = root.querySelector<HTMLInputElement>('#meme-search');
 
 		expect(root.querySelector('h1')?.textContent).toBe('Trader Memes');
 		expect(root.querySelectorAll('.meme-card')).toHaveLength(2);
-		expect(root.querySelector('[data-copy]')?.getAttribute('aria-label')).toBe('Copy ICT Meme');
+		expect(root.querySelector('[data-copy]')?.getAttribute('aria-label')).toBe('Copy VWAP Maxxer');
 
 		if (!search) {
 			throw new Error('Search input not found.');
@@ -72,13 +85,13 @@ describe('startMemeBrowser', () => {
 		tag?.click();
 
 		expect(root.querySelectorAll('.meme-card')).toHaveLength(1);
-		expect(root.querySelector('.meme-card h2')?.textContent).toBe('ICT Meme');
+		expect(root.querySelector('.meme-card h2')?.textContent).toBe('VWAP Maxxer');
 		expect(root.querySelector('#result-status')?.textContent).toBe('1 meme found.');
 
 		stop();
 	});
 
-	it('clears empty results and ignores unrelated document events', () => {
+	it('shows the minimal empty state and ignores unrelated document events', () => {
 		const { root, stop } = startBrowser();
 		const search = root.querySelector<HTMLInputElement>('#meme-search');
 
@@ -90,10 +103,13 @@ describe('startMemeBrowser', () => {
 		document.dispatchEvent(new KeyboardEvent('keydown', { bubbles: true, key: 'Enter' }));
 		search.value = 'missing';
 		search.dispatchEvent(new Event('input'));
-		root.querySelector<HTMLButtonElement>('[data-clear]')?.click();
 
-		expect(search.value).toBe('');
-		expect(root.querySelectorAll('.meme-card')).toHaveLength(2);
+		expect(search.value).toBe('missing');
+		expect(root.querySelectorAll('.meme-card')).toHaveLength(0);
+		expect(root.querySelector('#empty-state')?.hasAttribute('hidden')).toBe(false);
+		expect(root.querySelector('.empty-state__mark')?.textContent).toBe('×');
+		expect(root.querySelector('#empty-state p')).toBeNull();
+		expect(root.querySelector('#empty-state button')).toBeNull();
 
 		stop();
 	});

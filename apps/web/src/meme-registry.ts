@@ -1,106 +1,61 @@
 export const TAGS = [
-	'agreement',
-	'alert',
-	'all-time-high',
-	'batman',
+	'ath',
+	'awchutally',
 	'bear',
-	'bear-trap',
 	'bid',
-	'blown-account',
-	'breakout',
 	'bull',
-	'bull-trend',
-	'buy-low',
-	'cartman',
 	'chad',
-	'chart-pattern',
-	'chat',
 	'chop',
-	'citadel',
 	'cobd',
-	'community',
-	'conviction',
-	'copium',
-	'correlation',
 	'debt',
-	'disappointment',
-	'disbelief',
-	'discipline',
-	'discount',
+	'double',
 	'double-top',
-	'drake-and-josh',
-	'draw-25',
-	'drawdown',
-	'early-entry',
-	'elmo',
-	'emotions',
-	'enthusiast',
-	'entry',
+	'dt',
 	'es',
-	'execution',
-	'fade',
 	'fakeout',
-	'fire',
+	'farley',
+	'feel',
+	'fool',
 	'friday',
-	'frustration',
-	'ftv-friday',
-	'funded-trader',
+	'ftv',
+	'funded',
 	'fvg',
-	'hector',
-	'help',
 	'ict',
-	'joke',
+	'kermit',
 	'loss',
+	'margin',
 	'margin-call',
-	'market-mood',
-	'market-vibe',
-	'markets-closed',
-	'mean-reversion',
-	'memes',
-	'momentum',
 	'namaste',
 	'nq',
-	'overtrading',
-	'paul-revere',
-	'permabear',
-	'permabull',
-	'price-action',
-	'profit',
-	'programmer',
-	'prop-firm',
+	'onh-fakeout',
+	'pa',
+	'pa-sucks',
+	'pattern',
+	'plan',
+	'prop',
 	'pullback',
 	'range',
-	'reaction',
-	'recovery',
-	'repeat',
-	'request',
-	'return',
-	'risk',
 	'rithmic',
-	'routine',
-	'setup',
-	'shorting',
-	'shorting-lows',
-	'sierra-chart',
-	'sign',
+	'short',
+	'short-hole',
+	'short-low',
+	'sierra',
 	'skill-issue',
 	'slippage',
+	'slow',
 	'slow-grind',
-	'slow-market',
-	'spongebob',
+	'ss',
 	'stop-run',
-	'streaming',
-	'success',
-	'timing',
+	'stream',
+	'tea',
+	'tilt',
+	'trades',
 	'tradester',
-	'trading-plan',
-	'trailer-park-boys',
 	'trend',
-	'trend-day',
 	'uppies',
+	'volatile',
 	'vwap',
-	'waiting',
-	'weekdays',
+	'wick',
 	'wick-test',
 	'ym',
 	'yoda'
@@ -109,385 +64,260 @@ export const TAGS = [
 type MemeTag = (typeof TAGS)[number];
 
 export type Meme = {
-	readonly path: string;
+	readonly filename: string;
 	readonly tags: readonly MemeTag[];
 	readonly title: string;
 };
 
 export const MEMES = {
-	'acting-weak-programmer-getting-rich': {
-		path: '/acting-weak-programmer-getting-rich.png',
-		tags: ['profit', 'programmer', 'reaction'],
-		title: 'NQ Acting Weak'
+	'ahh-shit-the-slow-grind': {
+		filename: 'ahh-shit-the-slow-grind.png',
+		tags: ['slow-grind', 'trend'],
+		title: 'Ahh Shit. The slow grind.'
 	},
-	'another-all-time-high-day': {
-		path: '/another-all-time-high-day.png',
-		tags: ['all-time-high', 'bull', 'trend-day'],
-		title: 'Casual New High'
+	'awchutally-prop-deals': {
+		filename: 'awchutally-prop-deals.png',
+		tags: ['awchutally', 'prop'],
+		title: 'Awchutally Prop Deals'
 	},
-	'bear-day-chat-none-of-my-business': {
-		path: '/bear-day-chat-none-of-my-business.png',
-		tags: ['bear', 'chat', 'reaction'],
-		title: 'Not My Bear Day'
+	'carl-hole-shorter': {
+		filename: 'carl-hole-shorter.png',
+		tags: ['short', 'short-hole', 'short-low', 'ss'],
+		title: 'Carl - Hole Shorter'
 	},
-	'breakout-chart-pattern-emotions': {
-		path: '/breakout-chart-pattern-emotions.png',
-		tags: ['breakout', 'chart-pattern', 'emotions'],
-		title: 'Breakout Therapy Session'
+	'cobd-gang': {
+		filename: 'cobd-gang.png',
+		tags: ['cobd'],
+		title: 'C.O.B.D GANG'
 	},
-	'bro-vwap': {
-		path: '/bro-vwap.png',
-		tags: ['ftv-friday', 'friday', 'disappointment'],
+	'cobd-sierra': {
+		filename: 'cobd-sierra.png',
+		tags: ['cobd', 'sierra'],
+		title: 'C.O.B.D Sierra'
+	},
+	'cobd-tradester': {
+		filename: 'cobd-tradester.png',
+		tags: ['cobd', 'tradester'],
+		title: 'C.O.B.D Tradester'
+	},
+	'double-top': {
+		filename: 'double-top.png',
+		tags: ['double', 'double-top', 'dt'],
+		title: 'Double Top'
+	},
+	'es-on-vacay': {
+		filename: 'es-on-vacay.png',
+		tags: ['chop', 'es', 'range', 'slow'],
+		title: 'ES on Vacay'
+	},
+	'feel-aths': {
+		filename: 'feel-aths.png',
+		tags: ['ath', 'feel'],
+		title: 'Feel ATHs'
+	},
+	'friday-crawl': {
+		filename: 'friday-crawl.png',
+		tags: ['friday', 'ftv', 'slow-grind'],
+		title: 'Friday Crawl'
+	},
+	'friday-not-ftv': {
+		filename: 'friday-not-ftv.png',
+		tags: ['friday', 'ftv'],
 		title: 'Friday, Not FTV'
 	},
-	'bulls-bears-just-keep-swimming': {
-		path: '/bulls-bears-just-keep-swimming.png',
-		tags: ['bull', 'bear', 'trend'],
-		title: 'Just Keep Trading'
+	'ftv-friday-with-a-side-of-snow': {
+		filename: 'ftv-friday-with-a-side-of-snow.png',
+		tags: ['friday', 'ftv'],
+		title: 'FTV Friday with a side of snow'
 	},
-	'cartman-four-point-sierra-plan': {
-		path: '/cartman-four-point-sierra-plan.png',
-		tags: ['sierra-chart', 'trading-plan', 'cartman'],
-		title: 'Sierra Speedrun'
+	'ftv-hype': {
+		filename: 'ftv-hype.png',
+		tags: ['friday', 'ftv'],
+		title: 'FTV Hype'
 	},
-	'cartman-four-point-tradester-plan': {
-		path: '/cartman-four-point-tradester-plan.png',
-		tags: ['tradester', 'trading-plan', 'cartman'],
-		title: 'Tradester Speedrun'
+	funded: {
+		filename: 'funded.png',
+		tags: ['debt', 'funded', 'prop'],
+		title: '"Funded"'
 	},
-	'chop-for-dummies-buy-low-sell-high': {
-		path: '/chop-for-dummies-buy-low-sell-high.png',
-		tags: ['chop', 'range', 'buy-low'],
-		title: 'Chop for Dummies'
-	},
-	'chop-for-dummies-dont-trade-all-time': {
-		path: '/chop-for-dummies-dont-trade-all-time.png',
-		tags: ['chop', 'discipline', 'overtrading'],
-		title: 'Maybe Just Sit Out'
-	},
-	'cobd-till-i-die': {
-		path: '/cobd-till-i-die.png',
-		tags: ['cobd', 'setup', 'conviction'],
-		title: 'COBD Till I Die'
-	},
-	'diagnosis-skill-issue-pa-sucks': {
-		path: '/diagnosis-skill-issue-pa-sucks.png',
-		tags: ['trend-day', 'fade', 'discipline'],
-		title: 'Quit Fading It'
-	},
-	'dont-short-the-hole-market-vibe': {
-		path: '/dont-short-the-hole-market-vibe.png',
-		tags: ['shorting-lows', 'bear', 'market-vibe'],
-		title: 'Hands Off the Lows'
-	},
-	'drake-and-josh-vwap': {
-		path: '/drake-and-josh-vwap.png',
-		tags: ['vwap', 'drake-and-josh', 'reaction'],
-		title: 'VWAP? Interesting'
-	},
-	'drake-and-josh-wick-test': {
-		path: '/drake-and-josh-wick-test.png',
-		tags: ['wick-test', 'drake-and-josh', 'setup'],
-		title: 'Wick Test? Interesting'
-	},
-	'eat-sleep-vwap-repeat': {
-		path: '/eat-sleep-vwap-repeat.png',
-		tags: ['vwap', 'routine', 'repeat'],
-		title: 'Eat Sleep VWAP'
-	},
-	'enter-before-the-stop-run': {
-		path: '/enter-before-the-stop-run.png',
-		tags: ['stop-run', 'entry', 'timing'],
-		title: 'One Tick Too Soon'
-	},
-	'enter-on-stop-run-enthusiast': {
-		path: '/enter-on-stop-run-enthusiast.png',
-		tags: ['stop-run', 'entry', 'enthusiast'],
-		title: 'Stop Run Enjoyer'
-	},
-	'es-taking-it-easy-today': {
-		path: '/es-taking-it-easy-today.png',
-		tags: ['es', 'slow-market', 'chop'],
-		title: 'ES on Vacation'
-	},
-	'fakeout-bear-short-the-low-bear': {
-		path: '/fakeout-bear-short-the-low-bear.png',
-		tags: ['fakeout', 'bear', 'shorting-lows'],
-		title: 'The Low Looked Shortable'
-	},
-	'favorite-prop-firm-urinal-joke': {
-		path: '/favorite-prop-firm-urinal-joke.png',
-		tags: ['prop-firm', 'funded-trader', 'joke'],
-		title: 'Prop Firm Evangelist'
-	},
-	'feel-that-thats-friday': {
-		path: '/feel-that-thats-friday.png',
-		tags: ['friday', 'reaction', 'market-mood'],
-		title: 'Feel That? Friday'
-	},
-	'feel-that-thats-vwap': {
-		path: '/feel-that-thats-vwap.png',
-		tags: ['vwap', 'reaction', 'market-mood'],
-		title: 'Feel That? VWAP'
-	},
-	'for-the-love-of-god-pullback': {
-		path: '/for-the-love-of-god-pullback.png',
-		tags: ['pullback', 'trend', 'waiting'],
-		title: 'Please Just Pull Back'
-	},
-	'friday-but-not-ftv-friday': {
-		path: '/friday-but-not-ftv-friday.png',
-		tags: ['prop-firm', 'blown-account', 'markets-closed'],
-		title: 'Post-Close Productivity'
-	},
-	'ftv-friday-screaming': {
-		path: '/ftv-friday-screaming.png',
-		tags: ['ftv-friday', 'friday', 'reaction'],
-		title: 'FTV Friday!'
-	},
-	'funded-trader-credit-card-debt': {
-		path: '/funded-trader-credit-card-debt.png',
-		tags: ['funded-trader', 'prop-firm', 'debt'],
-		title: 'Funded, Technically'
-	},
-	'got-any-ftv-friday-today': {
-		path: '/got-any-ftv-friday-today.png',
-		tags: ['ftv-friday', 'friday', 'request'],
+	'got-any-ftv': {
+		filename: 'got-any-ftv.png',
+		tags: ['friday', 'ftv'],
 		title: 'Got Any FTV?'
 	},
-	'got-any-more-of-those-vwaps': {
-		path: '/got-any-more-of-those-vwaps.png',
-		tags: ['vwap', 'request', 'reaction'],
+	'got-any-vwap': {
+		filename: 'got-any-vwap.png',
+		tags: ['vwap'],
 		title: 'Got Any VWAP?'
 	},
-	'holey-moley-chopamoley': {
-		path: '/holey-moley-chopamoley.png',
-		tags: ['chop', 'range', 'reaction'],
-		title: 'Holey Moley, Chopamoley'
+	'i-need-a-beer': {
+		filename: 'i-need-a-beer.png',
+		tags: ['prop', 'tilt'],
+		title: 'I need a beer.'
 	},
-	'i-shorted-the-hole-dad': {
-		path: '/i-shorted-the-hole-dad.png',
-		tags: ['shorting-lows', 'discipline', 'bull-trend'],
-		title: 'Stop Shorting Above ONH'
+	'i-suck': {
+		filename: 'i-suck.png',
+		tags: ['pa', 'pa-sucks', 'skill-issue'],
+		title: 'I Suck'
 	},
-	'ict-simp-vwap-chad': {
-		path: '/ict-simp-vwap-chad.png',
-		tags: ['ict', 'vwap', 'chad'],
-		title: 'VWAP Chad'
+	'just-keep-trending-swimming': {
+		filename: 'just-keep-trending-swimming.png',
+		tags: ['bull', 'trend'],
+		title: 'Just Keep Trending (Swimming)'
 	},
-	'lured-into-shorting-lows-again': {
-		path: '/lured-into-shorting-lows-again.png',
-		tags: ['shorting-lows', 'bear-trap', 'loss'],
+	'lured-in-again': {
+		filename: 'lured-in-again.png',
+		tags: ['short', 'short-hole', 'short-low', 'ss'],
 		title: 'Lured In Again'
 	},
-	'made-back-losses-off-stream': {
-		path: '/made-back-losses-off-stream.png',
-		tags: ['loss', 'recovery', 'streaming'],
-		title: 'Off-Stream Recovery Arc'
+	'margin-call': {
+		filename: 'margin-call.png',
+		tags: ['farley', 'margin', 'margin-call', 'tilt'],
+		title: 'Margin Call'
 	},
-	'margin-department-is-calling': {
-		path: '/margin-department-is-calling.png',
-		tags: ['margin-call', 'loss', 'risk'],
-		title: 'Margin Is Calling'
+	'master-planner': {
+		filename: 'master-planner.png',
+		tags: ['plan', 'trades'],
+		title: 'Master Planner'
 	},
-	'markets-closed-blew-sixteen-pas': {
-		path: '/markets-closed-blew-sixteen-pas.png',
-		tags: ['nq', 'vwap', 'alert'],
-		title: 'NQ at VWAP'
+	namaste: {
+		filename: 'namaste.png',
+		tags: ['chop', 'namaste', 'range'],
+		title: 'Namaste'
 	},
-	'me-and-the-drawdown-reaper': {
-		path: '/me-and-the-drawdown-reaper.png',
-		tags: ['drawdown', 'loss', 'risk'],
-		title: 'My Drawdown Reaper'
+	'never-wrong-just-early': {
+		filename: 'never-wrong-just-early.png',
+		tags: ['yoda'],
+		title: 'Never Wrong, Just Early'
 	},
-	'memes-are-like-my-family': {
-		path: '/memes-are-like-my-family.png',
-		tags: ['memes', 'community', 'reaction'],
-		title: 'Memes Are Family'
+	'not-so-fast-nq': {
+		filename: 'not-so-fast-nq.png',
+		tags: ['nq'],
+		title: 'Not so fast NQ'
 	},
-	'my-trading-plan-vs-actual-trades': {
-		path: '/my-trading-plan-vs-actual-trades.png',
-		tags: ['permabull', 'permabear', 'bull', 'bear'],
-		title: 'Dual Mandate'
-	},
-	'namaste-today-is-chop-day': {
-		path: '/namaste-today-is-chop-day.png',
-		tags: ['chop', 'range', 'namaste'],
-		title: 'Namaste, It Is Chop'
-	},
-	'never-ask-trader-if-they-faded-trend-day': {
-		path: '/never-ask-trader-if-they-faded-trend-day.png',
-		tags: ['trading-plan', 'discipline', 'execution'],
-		title: 'The Plan vs Me'
-	},
-	'never-wrong-just-early-yoda': {
-		path: '/never-wrong-just-early-yoda.png',
-		tags: ['early-entry', 'yoda', 'copium'],
-		title: 'Early, Never Wrong'
-	},
-	'nq-trader-vs-ym-trader-yoda': {
-		path: '/nq-trader-vs-ym-trader-yoda.png',
+	'nq-meets-ym': {
+		filename: 'nq-meets-ym.png',
 		tags: ['nq', 'ym', 'yoda'],
 		title: 'NQ Meets YM'
 	},
-	'once-again-returning-to-vwap': {
-		path: '/once-again-returning-to-vwap.png',
-		tags: ['vwap', 'mean-reversion', 'return'],
-		title: 'Back to VWAP'
+	'off-stream-recovery-arc': {
+		filename: 'off-stream-recovery-arc.png',
+		tags: ['loss', 'stream'],
+		title: 'Off-Stream Recovery Arc'
 	},
-	'one-does-not-short-the-hole': {
-		path: '/one-does-not-short-the-hole.png',
-		tags: ['shorting-lows', 'bear', 'discipline'],
-		title: 'One Does Not Short'
+	'ol-reliable': {
+		filename: 'ol-reliable.png',
+		tags: ['friday', 'ftv'],
+		title: "Ol' Reliable"
 	},
-	'permabull-vs-permabear-work-rules': {
-		path: '/permabull-vs-permabear-work-rules.png',
-		tags: ['double-top', 'shorting', 'success'],
-		title: 'Wake Up, It Worked'
+	'one-simply-waits-for-stop-run': {
+		filename: 'one-simply-waits-for-stop-run.png',
+		tags: ['stop-run'],
+		title: 'One simply waits for stop-run'
 	},
-	'please-stop-shorting-double-top': {
-		path: '/please-stop-shorting-double-top.png',
-		tags: ['double-top', 'shorting', 'discipline'],
-		title: 'Please Stop Shorting'
+	'patterns-work-trust-me-bro': {
+		filename: 'patterns-work-trust-me-bro.png',
+		tags: ['fvg', 'ict', 'pattern', 'tilt'],
+		title: 'Patterns Work...Trust me bro'
 	},
-	'presidential-alert-nq-at-vwap': {
-		path: '/presidential-alert-nq-at-vwap.png',
-		tags: ['shorting-lows', 'bear', 'loss'],
-		title: 'I Shorted the Hole'
+	'price-action-is-not-real': {
+		filename: 'price-action-is-not-real.png',
+		tags: ['pa', 'volatile'],
+		title: 'Price Action is NOT Real'
 	},
-	'print-vwap-dont-say-the-f-word': {
-		path: '/print-vwap-dont-say-the-f-word.png',
-		tags: ['vwap', 'ftv-friday', 'reaction'],
-		title: 'Print VWAP, Stay Clean'
+	'prop-firm-evangelist': {
+		filename: 'prop-firm-evangelist.png',
+		tags: ['prop'],
+		title: 'Prop Firm Evangelist'
 	},
-	'prop-firm-discount-isnt-a-good-deal': {
-		path: '/prop-firm-discount-isnt-a-good-deal.png',
-		tags: ['prop-firm', 'discount', 'funded-trader'],
-		title: 'The Discount Trap'
+	'pullback-for-the-love-of-god': {
+		filename: 'pullback-for-the-love-of-god.png',
+		tags: ['farley', 'pullback'],
+		title: 'Pullback...FOR THE LOVE OF GOD'
 	},
-	'range-trading-sucks-actually': {
-		path: '/range-trading-sucks-actually.png',
-		tags: ['range', 'chop', 'frustration'],
-		title: 'Range Trading Enjoyer'
+	'self-sabotage': {
+		filename: 'self-sabotage.png',
+		tags: ['short', 'short-hole', 'short-low', 'ss'],
+		title: 'Self Sabotage'
 	},
-	'rithmic-slippage-citadel-career': {
-		path: '/rithmic-slippage-citadel-career.png',
-		tags: ['rithmic', 'slippage', 'citadel'],
+	'sierra-hero': {
+		filename: 'sierra-hero.png',
+		tags: ['sierra'],
+		title: 'Sierra Hero'
+	},
+	'sippin-tea': {
+		filename: 'sippin-tea.png',
+		tags: ['bear', 'kermit', 'tea'],
+		title: 'Sippin Tea'
+	},
+	'smart-vs-dumb-bear': {
+		filename: 'smart-vs-dumb-bear.png',
+		tags: ['bear', 'fakeout', 'onh-fakeout', 'short', 'short-low', 'ss'],
+		title: 'Smart vs Dumb Bear'
+	},
+	'thanks-rithmic': {
+		filename: 'thanks-rithmic.png',
+		tags: ['rithmic', 'slippage'],
 		title: 'Thanks, Rithmic'
 	},
-	'short-another-day-or-draw-25': {
-		path: '/short-another-day-or-draw-25.png',
-		tags: ['shorting', 'draw-25', 'discipline'],
-		title: 'Draw 25'
-	},
-	'short-the-lows-entering-cc-info': {
-		path: '/short-the-lows-entering-cc-info.png',
-		tags: ['shorting-lows', 'bear', 'entry'],
-		title: 'Entering Card Details'
-	},
-	'shut-up-hector': {
-		path: '/shut-up-hector.png',
-		tags: ['hector', 'reaction', 'chat'],
-		title: 'Shut Up, Hector'
-	},
-	'sierra-chart-help-batman': {
-		path: '/sierra-chart-help-batman.png',
-		tags: ['sierra-chart', 'help', 'batman'],
-		title: 'Sierra Needs a Hero'
-	},
-	'slow-grind-ftv-friday': {
-		path: '/slow-grind-ftv-friday.png',
-		tags: ['ftv-friday', 'slow-grind', 'friday'],
-		title: 'Friday Crawl'
-	},
-	'slow-grind-here-we-go-again': {
-		path: '/slow-grind-here-we-go-again.png',
-		tags: ['slow-grind', 'trend', 'reaction'],
-		title: 'The Grind Returns'
-	},
-	'spongebob-going-up-on-ftv-friday': {
-		path: '/spongebob-going-up-on-ftv-friday.png',
-		tags: ['ftv-friday', 'spongebob', 'bull'],
-		title: 'Friday Uppies'
-	},
-	'stop-fading-trend-days': {
-		path: '/stop-fading-trend-days.png',
-		tags: ['double-top', 'shorting', 'reaction'],
-		title: 'Babe, Double Top'
-	},
-	'stop-shorting-the-lows-toughest-battle': {
-		path: '/stop-shorting-the-lows-toughest-battle.png',
-		tags: ['shorting-lows', 'discipline', 'bear'],
-		title: 'Lows Are Lava'
-	},
-	'stop-trying-to-short-the-low': {
-		path: '/stop-trying-to-short-the-low.png',
-		tags: ['trend-day', 'fade', 'loss'],
-		title: 'Did You Fade It?'
-	},
-	'take-fvg-with-correlation': {
-		path: '/take-fvg-with-correlation.png',
-		tags: ['fvg', 'correlation', 'ict'],
-		title: 'Correlated FVG Enjoyer'
-	},
-	'that-chop-was-really-choppy': {
-		path: '/that-chop-was-really-choppy.png',
-		tags: ['chop', 'range', 'reaction'],
-		title: 'Premium Grade Chop'
+	'that-friday-feeling': {
+		filename: 'that-friday-feeling.png',
+		tags: ['feel', 'friday'],
+		title: 'That Friday Feeling'
 	},
 	'that-vwap-feeling': {
-		path: '/that-vwap-feeling.png',
-		tags: ['vwap', 'market-mood', 'reaction'],
+		filename: 'that-vwap-feeling.png',
+		tags: ['feel', 'vwap'],
 		title: 'That VWAP Feeling'
 	},
-	'the-uppies-are-coming-paul-revere': {
-		path: '/the-uppies-are-coming-paul-revere.png',
-		tags: ['bull', 'uppies', 'paul-revere'],
+	'the-most-interesting-hole-shorter': {
+		filename: 'the-most-interesting-hole-shorter.png',
+		tags: ['short', 'short-hole', 'short-low', 'ss'],
+		title: 'The most interesting hole-shorter'
+	},
+	'the-return-of-the-vwap': {
+		filename: 'the-return-of-the-vwap.png',
+		tags: ['vwap'],
+		title: 'The Return of The VWAP'
+	},
+	'the-uppies-are-coming': {
+		filename: 'the-uppies-are-coming.png',
+		tags: ['bull', 'trend', 'uppies'],
 		title: 'The Uppies Are Coming'
 	},
-	'this-price-action-is-not-real': {
-		path: '/this-price-action-is-not-real.png',
-		tags: ['price-action', 'disbelief', 'reaction'],
-		title: 'This Tape Is Fake'
-	},
-	'trailer-park-boys-handshake': {
-		path: '/trailer-park-boys-handshake.png',
-		tags: ['trailer-park-boys', 'reaction', 'agreement'],
-		title: 'A Fair Trade'
-	},
 	'turbo-bid-engaged': {
-		path: '/turbo-bid-engaged.png',
-		tags: ['bull', 'bid', 'momentum'],
-		title: 'Turbo Bid Engaged'
+		filename: 'turbo-bid-engaged.png',
+		tags: ['bid', 'bull'],
+		title: 'Turbo Bid...Engaged'
 	},
-	'vwap-chop-doesnt-exist-down-here': {
-		path: '/vwap-chop-doesnt-exist-down-here.png',
-		tags: ['vwap', 'chop', 'bear'],
-		title: 'No VWAP Down Here'
+	'v-w-a-p': {
+		filename: 'v-w-a-p.png',
+		tags: ['vwap'],
+		title: 'V W A P !'
 	},
-	'vwap-elmo-fire': {
-		path: '/vwap-elmo-fire.png',
-		tags: ['vwap', 'elmo', 'fire'],
-		title: 'VWAP Is Lit'
+	vwap: {
+		filename: 'vwap.png',
+		tags: ['vwap'],
+		title: 'VWAP.'
 	},
-	'vwap-is-beautiful-five-hours': {
-		path: '/vwap-is-beautiful-five-hours.png',
-		tags: ['vwap', 'waiting', 'reaction'],
-		title: 'VWAP Is Beautiful'
+	'vwap-chad': {
+		filename: 'vwap-chad.png',
+		tags: ['chad', 'ict', 'vwap'],
+		title: 'VWAP Chad'
 	},
-	'wake-up-double-top-finally-worked': {
-		path: '/wake-up-double-top-finally-worked.png',
-		tags: ['skill-issue', 'price-action', 'loss'],
-		title: 'Diagnosis: Skill Issue'
+	'vwap-maxxer': {
+		filename: 'vwap-maxxer.png',
+		tags: ['chad', 'fvg', 'ict', 'vwap'],
+		title: 'VWAP Maxxer'
 	},
-	'we-no-fool-sign': {
-		path: '/we-no-fool-sign.png',
-		tags: ['discipline', 'sign', 'reaction'],
+	'we-no-fool': {
+		filename: 'we-no-fool.png',
+		tags: ['fool'],
 		title: 'We No Fool'
 	},
-	'weekdays-then-ftv-friday': {
-		path: '/weekdays-then-ftv-friday.png',
-		tags: ['ftv-friday', 'weekdays', 'friday'],
-		title: 'Then Comes FTV Friday'
+	'wick-test': {
+		filename: 'wick-test.png',
+		tags: ['wick', 'wick-test'],
+		title: 'Wick Test.'
 	}
 } as const satisfies Record<string, Meme>;

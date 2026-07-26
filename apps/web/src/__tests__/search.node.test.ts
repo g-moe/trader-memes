@@ -5,11 +5,11 @@ import { describe, expect, it } from 'vitest';
 import { filterMemes, filterMemesByTag } from '../search';
 
 const MEMES = [
-	{ path: '/vwap-elmo-fire.png', tags: ['vwap', 'elmo'], title: 'VWAP Is Lit' },
+	{ filename: 'vwap.png', tags: ['vwap'], title: 'VWAP.' },
 	{
-		path: '/stop-fading-trend-days.png',
-		tags: ['trend-day', 'discipline'],
-		title: 'Did You Fade It?'
+		filename: 'self-sabotage.png',
+		tags: ['short', 'short-hole', 'short-low', 'ss'],
+		title: 'Self Sabotage'
 	}
 ] as const satisfies readonly Meme[];
 
@@ -20,23 +20,23 @@ describe('filterMemes', () => {
 
 	it('matches names and tags without caring about case', () => {
 		expect(filterMemes(MEMES, 'VWAP')).toEqual([MEMES[0]]);
-		expect(filterMemes(MEMES, 'discipline')).toEqual([MEMES[1]]);
-		expect(filterMemes(MEMES, 'DISCIPLINE')).toEqual([MEMES[1]]);
+		expect(filterMemes(MEMES, 'short-hole')).toEqual([MEMES[1]]);
+		expect(filterMemes(MEMES, 'SHORT-HOLE')).toEqual([MEMES[1]]);
 	});
 
 	it('requires every search term to match', () => {
-		expect(filterMemes(MEMES, 'trend discipline')).toEqual([MEMES[1]]);
-		expect(filterMemes(MEMES, 'trend elmo')).toEqual([]);
+		expect(filterMemes(MEMES, 'short ss')).toEqual([MEMES[1]]);
+		expect(filterMemes(MEMES, 'short vwap')).toEqual([]);
 	});
 
 	it('matches selected tags exactly', () => {
 		const collision = {
-			path: '/conviction.png',
-			tags: ['conviction'],
-			title: 'Conviction'
+			filename: 'short-hole-only.png',
+			tags: ['short-hole'],
+			title: 'Short Hole Only'
 		} as const satisfies Meme;
 
-		expect(filterMemesByTag([...MEMES, collision], 'discipline')).toEqual([MEMES[1]]);
+		expect(filterMemesByTag([...MEMES, collision], 'short')).toEqual([MEMES[1]]);
 		expect(filterMemesByTag([...MEMES, collision], 'ict')).toEqual([]);
 	});
 });

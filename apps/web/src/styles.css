@@ -52,6 +52,15 @@ body {
 #app {
 	position: relative;
 	z-index: 1;
+	display: flex;
+	min-height: 100svh;
+	flex-direction: column;
+}
+
+main {
+	display: flex;
+	flex: 1;
+	flex-direction: column;
 }
 
 button,
@@ -153,6 +162,9 @@ main {
 }
 
 .browser {
+	display: flex;
+	flex: 1;
+	flex-direction: column;
 	padding-top: 18px;
 	padding-bottom: 100px;
 }
@@ -330,33 +342,26 @@ main {
 	display: none;
 }
 
-.empty-state > span {
-	display: block;
-	color: var(--coral);
-	font-size: 5rem;
-	font-weight: 900;
+.empty-state__mark {
+	display: grid;
+	width: 76px;
+	aspect-ratio: 1;
+	margin-inline: auto;
+	place-items: center;
+	clip-path: polygon(30% 0, 70% 0, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0 70%, 0 30%);
+	color: var(--ink);
+	background: var(--coral);
+	font:
+		900 4.5rem/1 Arial,
+		sans-serif;
 }
 
 .empty-state h2 {
-	margin: 8px 0;
+	margin: 22px 0 0;
 	font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
 	font-size: 3.5rem;
 	font-weight: 400;
 	text-transform: uppercase;
-}
-
-.empty-state p {
-	margin: 0 0 24px;
-	color: var(--muted);
-}
-
-.empty-state button {
-	padding: 11px 15px;
-	border: 1px solid var(--acid);
-	color: var(--acid);
-	background: transparent;
-	font-weight: 800;
-	cursor: pointer;
 }
 
 footer {
