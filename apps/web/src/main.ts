@@ -13,7 +13,7 @@ const MEME_LIST = Object.values(MEMES);
 const stopMemeBrowser = startMemeBrowser(app, MEME_LIST, {
 	clipboardItem: globalThis.ClipboardItem,
 	document,
-	fetch,
+	fetchImage: (path) => fetch(path),
 	navigator
 });
 let stopAmbientBackground: () => void = () => undefined;

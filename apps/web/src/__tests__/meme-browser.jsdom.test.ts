@@ -21,7 +21,7 @@ const startBrowser = (overrides: Partial<Parameters<typeof startMemeBrowser>[2]>
 	const dependencies = {
 		clipboardItem: undefined,
 		document,
-		fetch,
+		fetchImage: (path: string) => fetch(path),
 		navigator,
 		...overrides
 	};
@@ -35,6 +35,7 @@ const startBrowser = (overrides: Partial<Parameters<typeof startMemeBrowser>[2]>
 afterEach(() => {
 	stops.splice(0).forEach((stop) => stop());
 	vi.restoreAllMocks();
+	vi.useRealTimers();
 	document.body.innerHTML = '';
 });
 
@@ -46,7 +47,7 @@ describe('startMemeBrowser', () => {
 			startMemeBrowser(detachedRoot, MEMES, {
 				clipboardItem: undefined,
 				document,
-				fetch,
+				fetchImage: (path) => fetch(path),
 				navigator
 			})
 		).toThrow('Required meme browser element not found: #meme-search');
@@ -124,17 +125,25 @@ describe('startMemeBrowser', () => {
 
 		await vi.waitFor(() => expect(click).toHaveBeenCalledTimes(1));
 		expect(root.querySelector('#toast')?.textContent).toContain("Copy isn't supported");
+		expect(root.querySelector('#toast')?.classList).toContain('toast--error');
 
 		stop();
 	});
 
 	it('copies validated image responses and falls back for invalid responses', async () => {
-		const write = vi.fn<(items: ClipboardItems) => Promise<void>>(async () => undefined);
+		const copiedImages: Array<Promise<Blob>> = [];
+		const write = vi.fn<(items: ClipboardItems) => Promise<void>>(async (items) => {
+			copiedImages.push(items[0]?.getType('image/png') as Promise<Blob>);
+		});
 		const click = vi
 			.spyOn(HTMLAnchorElement.prototype, 'click')
 			.mockImplementation(() => undefined);
 		const ClipboardItemStub = class {
-			constructor(readonly items: Record<string, Blob>) {}
+			constructor(readonly items: Record<string, Promise<Blob>>) {}
+
+			getType(type: string) {
+				return this.items[type];
+			}
 		};
 		const successfulFetch = vi.fn<() => Promise<Response>>(
 			async () =>
@@ -147,21 +156,41 @@ describe('startMemeBrowser', () => {
 		const navigatorWithClipboard = { clipboard: { write } } as unknown as Navigator;
 		const { root, stop } = startBrowser({
 			clipboardItem: ClipboardItemStub as unknown as typeof ClipboardItem,
-			fetch: successfulFetch as typeof fetch,
+			fetchImage: successfulFetch,
 			navigator: navigatorWithClipboard
 		});
 		const copyButton = root.querySelector<HTMLButtonElement>('[data-copy]');
 
+		vi.useFakeTimers();
 		copyButton?.click();
 
-		await vi.waitFor(() => expect(write).toHaveBeenCalledTimes(1));
-		expect(root.querySelector('#toast')?.textContent).toContain('Copied.');
+		expect(write).toHaveBeenCalledTimes(1);
+		await vi.advanceTimersByTimeAsync(0);
+		await expect(copiedImages[0]).resolves.toMatchObject({ type: 'image/png' });
+		expect(root.querySelector('#toast')?.textContent).toBe('');
+		expect(root.querySelector('#toast')?.classList).not.toContain('toast--visible');
+		expect(copyButton?.classList).toContain('copy-button--copied');
+		expect(copyButton?.getAttribute('aria-label')).toBe('Copied');
+
+		await vi.advanceTimersByTimeAsync(900);
+		copyButton?.click();
+		await vi.advanceTimersByTimeAsync(900);
+
+		expect(write).toHaveBeenCalledTimes(2);
+		expect(copyButton?.classList).toContain('copy-button--copied');
+
+		await vi.advanceTimersByTimeAsync(900);
+
+		expect(copyButton?.classList).not.toContain('copy-button--copied');
+		expect(copyButton?.getAttribute('aria-label')).toBe('Copy VWAP Maxxer');
+		vi.useRealTimers();
 
 		successfulFetch.mockResolvedValueOnce({ ok: false, status: 404 } as Response);
 		copyButton?.click();
 
 		await vi.waitFor(() => expect(click).toHaveBeenCalledTimes(1));
 		expect(root.querySelector('#toast')?.textContent).toContain("Couldn't copy");
+		expect(root.querySelector('#toast')?.classList).toContain('toast--error');
 
 		stop();
 	});
@@ -188,7 +217,7 @@ describe('startMemeBrowser', () => {
 		} as unknown as Navigator;
 		const { root, stop } = startBrowser({
 			clipboardItem: ClipboardItemStub as unknown as typeof ClipboardItem,
-			fetch: nonImageFetch as typeof fetch,
+			fetchImage: nonImageFetch,
 			navigator: navigatorWithClipboard
 		});
 
@@ -196,6 +225,7 @@ describe('startMemeBrowser', () => {
 
 		await vi.waitFor(() => expect(click).toHaveBeenCalledTimes(1));
 		expect(root.querySelector('#toast')?.textContent).toContain("Couldn't copy");
+		expect(root.querySelector('#toast')?.classList).toContain('toast--error');
 
 		stop();
 	});

@@ -9,7 +9,8 @@
 			"Added live search, quick tag filters, empty results, accessible announcements, and copy-image behavior with a download fallback.",
 			"Streamlined the site around a compact sticky header, always-visible tags, immediate interactions, a minimal footer, and matching browser and home-screen icons.",
 			"Established repository validation with full-source test coverage, a required Chromium user journey, project-record checks, and removal of unused code and configuration.",
-			"Matched direct unit-test file names to the source files they cover."
+			"Matched direct unit-test file names to the source files they cover.",
+			"Made image copying retain browser permission while images load, acknowledge successful copies with a fixed-width ticker animation, and present failures in a red-bordered toast at the top center of the page."
 		]
 	}
 }

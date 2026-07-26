@@ -271,7 +271,9 @@ main {
 	bottom: 12px;
 	display: flex;
 	align-items: center;
+	justify-content: center;
 	gap: 7px;
+	width: 112px;
 	padding: 9px 11px;
 	border: 2px solid transparent;
 	color: var(--ink);
@@ -286,6 +288,26 @@ main {
 	cursor: pointer;
 	opacity: 0;
 	transform: translateY(5px);
+}
+
+.copy-button__label {
+	height: 1em;
+	overflow: hidden;
+	line-height: 1;
+}
+
+.copy-button__label-track {
+	display: flex;
+	flex-direction: column;
+	transition: transform 160ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.copy-button__label-track > span {
+	height: 1em;
+}
+
+.copy-button--copied .copy-button__label-track {
+	transform: translateY(-1em);
 }
 
 .meme-card:hover .copy-button,
@@ -388,12 +410,12 @@ footer span {
 
 .toast {
 	position: fixed;
-	right: 24px;
-	bottom: 24px;
+	top: 16px;
+	left: 50%;
 	z-index: 20;
 	max-width: min(360px, calc(100vw - 32px));
 	padding: 14px 17px;
-	border-left: 4px solid var(--acid);
+	border: 2px solid var(--acid);
 	color: var(--cream);
 	background: #252b24;
 	box-shadow: 0 15px 45px rgba(0, 0, 0, 0.35);
@@ -401,12 +423,17 @@ footer span {
 	font-weight: 700;
 	opacity: 0;
 	pointer-events: none;
-	transform: translateY(12px);
+	transform: translate(-50%, -12px);
 }
 
 .toast--visible {
 	opacity: 1;
-	transform: translateY(0);
+	transform: translate(-50%, 0);
+}
+
+.toast--error {
+	border-color: var(--coral);
+	color: #fff;
 }
 
 @media (max-width: 720px) {
@@ -469,14 +496,13 @@ footer span {
 		flex-direction: column;
 		padding-bottom: 30px;
 	}
-
-	.toast {
-		right: 16px;
-		bottom: 16px;
-	}
 }
 
 @media (prefers-reduced-motion: reduce) {
+	.copy-button__label-track {
+		transition: none;
+	}
+
 	.copy-button:hover,
 	.copy-button:focus-visible {
 		border-color: var(--cream);

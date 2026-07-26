@@ -5,9 +5,18 @@ import { filterMemes, filterMemesByTag } from './search';
 type BrowserDependencies = {
 	readonly clipboardItem?: typeof ClipboardItem;
 	readonly document: Document;
-	readonly fetch: typeof fetch;
+	readonly fetchImage: (path: string) => Promise<Response>;
 	readonly navigator: Navigator;
 };
+
+type ToastTone = 'default' | 'error';
+
+type CopySuccessState = {
+	readonly ariaLabel: string | null;
+	readonly timer: ReturnType<typeof setTimeout>;
+};
+
+const COPY_SUCCESS_DURATION_MS = 1800;
 
 const renderCard = (meme: Meme) => {
 	const imagePath = `/${meme.filename}`;
@@ -17,7 +26,13 @@ const renderCard = (meme: Meme) => {
 		<div class="meme-card__image-wrap">
 			<img class="meme-card__image" src="${imagePath}" alt="${meme.title}" loading="lazy" />
 			<button class="copy-button" type="button" data-copy="${imagePath}" aria-label="Copy ${meme.title}">
-				<span aria-hidden="true">⧉</span> Copy image
+				<span aria-hidden="true">⧉</span>
+				<span class="copy-button__label" aria-hidden="true">
+					<span class="copy-button__label-track">
+						<span>Copy image</span>
+						<span>Copied</span>
+					</span>
+				</span>
 			</button>
 		</div>
 		<div class="meme-card__body">
@@ -72,36 +87,39 @@ const downloadImage = (document: Document, path: string) => {
 
 const writeImageToClipboard = async (
 	path: string,
-	dependencies: Pick<BrowserDependencies, 'clipboardItem' | 'fetch' | 'navigator'>
+	dependencies: Pick<BrowserDependencies, 'clipboardItem' | 'fetchImage' | 'navigator'>
 ) => {
 	if (!dependencies.navigator.clipboard?.write || !dependencies.clipboardItem) {
 		return false;
 	}
 
-	const response = await dependencies.fetch(path);
+	const image = dependencies.fetchImage(path).then(async (response) => {
+		if (!response.ok) {
+			throw new Error(`Image request failed with status ${response.status}.`);
+		}
 
-	if (!response.ok) {
-		throw new Error(`Image request failed with status ${response.status}.`);
-	}
+		const blob = await response.blob();
 
-	const blob = await response.blob();
+		if (blob.type !== 'image/png') {
+			throw new Error(`Expected a PNG response, received ${blob.type || 'an unknown type'}.`);
+		}
 
-	if (!blob.type.startsWith('image/')) {
-		throw new Error(`Expected an image response, received ${blob.type || 'an unknown type'}.`);
-	}
-
-	await dependencies.navigator.clipboard.write([
-		new dependencies.clipboardItem({ [blob.type]: blob })
+		return blob;
+	});
+	const write = dependencies.navigator.clipboard.write([
+		new dependencies.clipboardItem({ 'image/png': image })
 	]);
+
+	await Promise.all([image, write]);
 
 	return true;
 };
 
 const getRequiredElement = <ElementType extends Element>(
-	document: Document,
+	root: ParentNode,
 	selector: string
 ): ElementType => {
-	const element = document.querySelector<ElementType>(selector);
+	const element = root.querySelector<ElementType>(selector);
 
 	if (!element) {
 		throw new Error(`Required meme browser element not found: ${selector}`);
@@ -122,14 +140,42 @@ export const startMemeBrowser = (
 	const emptyState = getRequiredElement<HTMLElement>(dependencies.document, '#empty-state');
 	const resultStatus = getRequiredElement<HTMLElement>(dependencies.document, '#result-status');
 	const toast = getRequiredElement<HTMLElement>(dependencies.document, '#toast');
+	const copySuccessStates = new Map<HTMLButtonElement, CopySuccessState>();
 	let toastTimer: ReturnType<typeof setTimeout> | undefined;
 
-	const showToast = (message: string) => {
+	const showToast = (message: string, tone: ToastTone = 'default') => {
 		toast.textContent = message;
+		toast.classList.toggle('toast--error', tone === 'error');
 		toast.classList.add('toast--visible');
 
 		clearTimeout(toastTimer);
 		toastTimer = setTimeout(() => toast.classList.remove('toast--visible'), 2600);
+	};
+	const handleCopyFailure = (path: string, message: string) => {
+		downloadImage(dependencies.document, path);
+		showToast(message, 'error');
+	};
+	const showCopySuccess = (button: HTMLButtonElement) => {
+		const currentState = copySuccessStates.get(button);
+		const ariaLabel = currentState?.ariaLabel ?? button.getAttribute('aria-label');
+
+		button.classList.add('copy-button--copied');
+		button.setAttribute('aria-label', 'Copied');
+		clearTimeout(currentState?.timer);
+
+		const timer = setTimeout(() => {
+			button.classList.remove('copy-button--copied');
+
+			if (ariaLabel) {
+				button.setAttribute('aria-label', ariaLabel);
+			} else {
+				button.removeAttribute('aria-label');
+			}
+
+			copySuccessStates.delete(button);
+		}, COPY_SUCCESS_DURATION_MS);
+
+		copySuccessStates.set(button, { ariaLabel, timer });
 	};
 
 	const renderMemes = (query: string, exactTag?: string) => {
@@ -143,21 +189,23 @@ export const startMemeBrowser = (
 				: `${matches.length} meme${matches.length === 1 ? '' : 's'} found.`;
 	};
 
-	const copyImage = async (path: string) => {
+	const copyImage = async (path: string, onSuccess: () => void) => {
+		let copied: boolean;
+
 		try {
-			const copied = await writeImageToClipboard(path, dependencies);
-
-			if (copied) {
-				showToast('Copied. Go save the group chat.');
-				return;
-			}
-
-			downloadImage(dependencies.document, path);
-			showToast("Copy isn't supported here, so we downloaded it.");
-		} catch {
-			downloadImage(dependencies.document, path);
-			showToast("Couldn't copy the image, so we downloaded it.");
+			copied = await writeImageToClipboard(path, dependencies);
+		} catch (error) {
+			console.error('Image copy failed.', error);
+			handleCopyFailure(path, "Couldn't copy the image, so we downloaded it.");
+			return;
 		}
+
+		if (!copied) {
+			handleCopyFailure(path, "Copy isn't supported here, so we downloaded it.");
+			return;
+		}
+
+		onSuccess();
 	};
 
 	const setSearch = (query: string, exactTag?: string) => {
@@ -180,7 +228,7 @@ export const startMemeBrowser = (
 		const tagButton = element.closest<HTMLButtonElement>('[data-tag]');
 
 		if (copyButton?.dataset.copy) {
-			void copyImage(copyButton.dataset.copy);
+			void copyImage(copyButton.dataset.copy, () => showCopySuccess(copyButton));
 			return;
 		}
 
@@ -201,6 +249,8 @@ export const startMemeBrowser = (
 
 	return () => {
 		clearTimeout(toastTimer);
+		copySuccessStates.forEach(({ timer }) => clearTimeout(timer));
+		copySuccessStates.clear();
 		searchInput.removeEventListener('input', handleInput);
 		dependencies.document.removeEventListener('click', handleClick);
 		dependencies.document.removeEventListener('keydown', handleKeydown);
