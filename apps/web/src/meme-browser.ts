@@ -3,10 +3,8 @@ import type { Meme } from './meme-registry';
 import { filterMemes, filterMemesByTag } from './search';
 
 type BrowserDependencies = {
-	readonly clipboardItem?: typeof ClipboardItem;
+	readonly copyImage: (path: string) => Promise<boolean>;
 	readonly document: Document;
-	readonly fetchImage: (path: string) => Promise<Response>;
-	readonly navigator: Navigator;
 };
 
 type ToastTone = 'default' | 'error';
@@ -25,11 +23,11 @@ const renderCard = (meme: Meme) => {
 	<article class="meme-card">
 		<div class="meme-card__image-wrap">
 			<img class="meme-card__image" src="${imagePath}" alt="${meme.title}" loading="lazy" />
-			<button class="copy-button" type="button" data-copy="${imagePath}" aria-label="Copy ${meme.title}">
+			<button class="copy-button" type="button" data-copy="${imagePath}" aria-label="Copy link for ${meme.title}">
 				<span aria-hidden="true">⧉</span>
 				<span class="copy-button__label" aria-hidden="true">
 					<span class="copy-button__label-track">
-						<span>Copy image</span>
+						<span>Copy link</span>
 						<span>Copied</span>
 					</span>
 				</span>
@@ -77,44 +75,6 @@ const renderShell = () => `
 	<div id="toast" class="toast" role="status" aria-live="polite"></div>
 `;
 
-const downloadImage = (document: Document, path: string) => {
-	const link = document.createElement('a');
-
-	link.href = path;
-	link.download = path.split('/').at(-1) ?? 'trader-meme.png';
-	link.click();
-};
-
-const writeImageToClipboard = async (
-	path: string,
-	dependencies: Pick<BrowserDependencies, 'clipboardItem' | 'fetchImage' | 'navigator'>
-) => {
-	if (!dependencies.navigator.clipboard?.write || !dependencies.clipboardItem) {
-		return false;
-	}
-
-	const image = dependencies.fetchImage(path).then(async (response) => {
-		if (!response.ok) {
-			throw new Error(`Image request failed with status ${response.status}.`);
-		}
-
-		const blob = await response.blob();
-
-		if (blob.type !== 'image/png') {
-			throw new Error(`Expected a PNG response, received ${blob.type || 'an unknown type'}.`);
-		}
-
-		return blob;
-	});
-	const write = dependencies.navigator.clipboard.write([
-		new dependencies.clipboardItem({ 'image/png': image })
-	]);
-
-	await Promise.all([image, write]);
-
-	return true;
-};
-
 const getRequiredElement = <ElementType extends Element>(
 	root: ParentNode,
 	selector: string
@@ -151,10 +111,6 @@ export const startMemeBrowser = (
 		clearTimeout(toastTimer);
 		toastTimer = setTimeout(() => toast.classList.remove('toast--visible'), 2600);
 	};
-	const handleCopyFailure = (path: string, message: string) => {
-		downloadImage(dependencies.document, path);
-		showToast(message, 'error');
-	};
 	const showCopySuccess = (button: HTMLButtonElement) => {
 		const currentState = copySuccessStates.get(button);
 		const ariaLabel = currentState?.ariaLabel ?? button.getAttribute('aria-label');
@@ -189,19 +145,19 @@ export const startMemeBrowser = (
 				: `${matches.length} meme${matches.length === 1 ? '' : 's'} found.`;
 	};
 
-	const copyImage = async (path: string, onSuccess: () => void) => {
+	const copyLink = async (path: string, onSuccess: () => void) => {
 		let copied: boolean;
 
 		try {
-			copied = await writeImageToClipboard(path, dependencies);
+			copied = await dependencies.copyImage(path);
 		} catch (error) {
-			console.error('Image copy failed.', error);
-			handleCopyFailure(path, "Couldn't copy the image, so we downloaded it.");
+			console.error('Link copy failed.', error);
+			showToast("Couldn't copy the link.", 'error');
 			return;
 		}
 
 		if (!copied) {
-			handleCopyFailure(path, "Copy isn't supported here, so we downloaded it.");
+			showToast("Copy isn't supported here.", 'error');
 			return;
 		}
 
@@ -228,7 +184,7 @@ export const startMemeBrowser = (
 		const tagButton = element.closest<HTMLButtonElement>('[data-tag]');
 
 		if (copyButton?.dataset.copy) {
-			void copyImage(copyButton.dataset.copy, () => showCopySuccess(copyButton));
+			void copyLink(copyButton.dataset.copy, () => showCopySuccess(copyButton));
 			return;
 		}
 

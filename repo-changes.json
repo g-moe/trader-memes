@@ -1,7 +1,7 @@
 {
 	"$schema": "./schema/repo-changes.schema.json",
 	"version": 1,
-	"updated": "2026-07-26",
+	"updated": "2026-08-07",
 	"entries": {
 		"main": [
 			"Built Trader Memes as a responsive one-page gallery for 75 curated meme images.",
@@ -14,7 +14,9 @@
 			"Removed the sticky header separator and fixed the browser favicon by placing it in the directory served by Vite.",
 			"Increased the spacing between masonry-grid meme cards across desktop and mobile layouts.",
 			"Switched the mobile gallery to one card per row at an earlier 800-pixel breakpoint.",
-			"Composed shared meme tag groups in the registry while keeping meme-specific tags inline."
+			"Composed shared meme tag groups in the registry while keeping meme-specific tags inline.",
+			"Copy places the absolute meme image URL on the clipboard so Discord paste gets a shareable link.",
+			"Split image copy into separate link and PNG data strategy modules, with main wiring only the link path for now."
 		]
 	}
 }

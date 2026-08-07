@@ -19,10 +19,8 @@ const startBrowser = (overrides: Partial<Parameters<typeof startMemeBrowser>[2]>
 	}
 
 	const dependencies = {
-		clipboardItem: undefined,
+		copyImage: async () => true,
 		document,
-		fetchImage: (path: string) => fetch(path),
-		navigator,
 		...overrides
 	};
 
@@ -45,10 +43,8 @@ describe('startMemeBrowser', () => {
 
 		expect(() =>
 			startMemeBrowser(detachedRoot, MEMES, {
-				clipboardItem: undefined,
-				document,
-				fetchImage: (path) => fetch(path),
-				navigator
+				copyImage: async () => true,
+				document
 			})
 		).toThrow('Required meme browser element not found: #meme-search');
 	});
@@ -59,7 +55,9 @@ describe('startMemeBrowser', () => {
 
 		expect(root.querySelector('h1')?.textContent).toBe('Trader Memes');
 		expect(root.querySelectorAll('.meme-card')).toHaveLength(2);
-		expect(root.querySelector('[data-copy]')?.getAttribute('aria-label')).toBe('Copy VWAP Maxxer');
+		expect(root.querySelector('[data-copy]')?.getAttribute('aria-label')).toBe(
+			'Copy link for VWAP Maxxer'
+		);
 
 		if (!search) {
 			throw new Error('Search input not found.');
@@ -115,116 +113,57 @@ describe('startMemeBrowser', () => {
 		stop();
 	});
 
-	it('downloads when clipboard images are unavailable', async () => {
-		const click = vi
-			.spyOn(HTMLAnchorElement.prototype, 'click')
-			.mockImplementation(() => undefined);
-		const { root, stop } = startBrowser();
+	it('shows an error when the copy strategy reports unsupported', async () => {
+		const { root, stop } = startBrowser({
+			copyImage: async () => false
+		});
 
 		root.querySelector<HTMLButtonElement>('[data-copy]')?.click();
 
-		await vi.waitFor(() => expect(click).toHaveBeenCalledTimes(1));
-		expect(root.querySelector('#toast')?.textContent).toContain("Copy isn't supported");
+		await vi.waitFor(() =>
+			expect(root.querySelector('#toast')?.textContent).toContain("Copy isn't supported")
+		);
 		expect(root.querySelector('#toast')?.classList).toContain('toast--error');
 
 		stop();
 	});
 
-	it('copies validated image responses and falls back for invalid responses', async () => {
-		const copiedImages: Array<Promise<Blob>> = [];
-		const write = vi.fn<(items: ClipboardItems) => Promise<void>>(async (items) => {
-			copiedImages.push(items[0]?.getType('image/png') as Promise<Blob>);
-		});
-		const click = vi
-			.spyOn(HTMLAnchorElement.prototype, 'click')
-			.mockImplementation(() => undefined);
-		const ClipboardItemStub = class {
-			constructor(readonly items: Record<string, Promise<Blob>>) {}
-
-			getType(type: string) {
-				return this.items[type];
-			}
-		};
-		const successfulFetch = vi.fn<() => Promise<Response>>(
-			async () =>
-				({
-					blob: async () => new Blob(['image'], { type: 'image/png' }),
-					ok: true,
-					status: 200
-				}) as Response
-		);
-		const navigatorWithClipboard = { clipboard: { write } } as unknown as Navigator;
-		const { root, stop } = startBrowser({
-			clipboardItem: ClipboardItemStub as unknown as typeof ClipboardItem,
-			fetchImage: successfulFetch,
-			navigator: navigatorWithClipboard
-		});
+	it('invokes the copy strategy and restores the copy button after success', async () => {
+		const copyImage = vi.fn<(path: string) => Promise<boolean>>(async () => true);
+		const { root, stop } = startBrowser({ copyImage });
 		const copyButton = root.querySelector<HTMLButtonElement>('[data-copy]');
 
 		vi.useFakeTimers();
 		copyButton?.click();
-
-		expect(write).toHaveBeenCalledTimes(1);
 		await vi.advanceTimersByTimeAsync(0);
-		await expect(copiedImages[0]).resolves.toMatchObject({ type: 'image/png' });
+
+		expect(copyImage).toHaveBeenCalledWith('/vwap-maxxer.png');
 		expect(root.querySelector('#toast')?.textContent).toBe('');
 		expect(root.querySelector('#toast')?.classList).not.toContain('toast--visible');
 		expect(copyButton?.classList).toContain('copy-button--copied');
 		expect(copyButton?.getAttribute('aria-label')).toBe('Copied');
 
-		await vi.advanceTimersByTimeAsync(900);
-		copyButton?.click();
-		await vi.advanceTimersByTimeAsync(900);
-
-		expect(write).toHaveBeenCalledTimes(2);
-		expect(copyButton?.classList).toContain('copy-button--copied');
-
-		await vi.advanceTimersByTimeAsync(900);
+		await vi.advanceTimersByTimeAsync(1800);
 
 		expect(copyButton?.classList).not.toContain('copy-button--copied');
-		expect(copyButton?.getAttribute('aria-label')).toBe('Copy VWAP Maxxer');
+		expect(copyButton?.getAttribute('aria-label')).toBe('Copy link for VWAP Maxxer');
 		vi.useRealTimers();
-
-		successfulFetch.mockResolvedValueOnce({ ok: false, status: 404 } as Response);
-		copyButton?.click();
-
-		await vi.waitFor(() => expect(click).toHaveBeenCalledTimes(1));
-		expect(root.querySelector('#toast')?.textContent).toContain("Couldn't copy");
-		expect(root.querySelector('#toast')?.classList).toContain('toast--error');
 
 		stop();
 	});
 
-	it('rejects successful non-image responses', async () => {
-		const click = vi
-			.spyOn(HTMLAnchorElement.prototype, 'click')
-			.mockImplementation(() => undefined);
-		const ClipboardItemStub = class {
-			constructor(readonly items: Record<string, Blob>) {}
-		};
-		const nonImageFetch = vi.fn<() => Promise<Response>>(
-			async () =>
-				({
-					blob: async () => new Blob(['text']),
-					ok: true,
-					status: 200
-				}) as Response
-		);
-		const navigatorWithClipboard = {
-			clipboard: {
-				write: vi.fn<(items: ClipboardItems) => Promise<void>>(async () => undefined)
-			}
-		} as unknown as Navigator;
+	it('shows an error when the copy strategy fails', async () => {
 		const { root, stop } = startBrowser({
-			clipboardItem: ClipboardItemStub as unknown as typeof ClipboardItem,
-			fetchImage: nonImageFetch,
-			navigator: navigatorWithClipboard
+			copyImage: async () => {
+				throw new Error('denied');
+			}
 		});
 
 		root.querySelector<HTMLButtonElement>('[data-copy]')?.click();
 
-		await vi.waitFor(() => expect(click).toHaveBeenCalledTimes(1));
-		expect(root.querySelector('#toast')?.textContent).toContain("Couldn't copy");
+		await vi.waitFor(() =>
+			expect(root.querySelector('#toast')?.textContent).toContain("Couldn't copy the link")
+		);
 		expect(root.querySelector('#toast')?.classList).toContain('toast--error');
 
 		stop();

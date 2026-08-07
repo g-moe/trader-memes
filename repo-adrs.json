@@ -1,7 +1,7 @@
 {
 	"$schema": "./schema/repo-adrs.schema.json",
 	"version": 1,
-	"updated": "2026-07-25",
+	"updated": "2026-08-07",
 	"decisions": [
 		{
 			"topic": "meme-catalog",
@@ -17,7 +17,11 @@
 		},
 		{
 			"topic": "browser-controller",
-			"note": "Keep main.ts as the browser composition root and place gallery markup, state, events, clipboard handling, and cleanup in one meme-browser controller."
+			"note": "Keep main.ts as the browser composition root; meme-browser owns gallery markup, state, events, and cleanup, and receives the active image-copy strategy as a dependency."
+		},
+		{
+			"topic": "image-copy-strategies",
+			"note": "Keep absolute-link and PNG clipboard copy strategies in separate modules (image-copy-link.ts and image-copy-data.ts); compose both in main.ts and select the active strategy there."
 		},
 		{
 			"topic": "type-import-style",
