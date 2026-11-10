@@ -56,7 +56,7 @@ const STRATEGY_TAGS = [
 	'wick-test'
 ] as const;
 
-const SYMBOL_TAGS = ['es', 'nq', 'ym'] as const;
+const SYMBOL_TAGS = ['es', 'nq', 'spy', 'ym'] as const;
 
 export const TAGS = [
 	...BEAR_TAGS,
@@ -229,6 +229,11 @@ export const MEMES = {
 		filename: 'pullback-for-the-love-of-god.png',
 		tags: ['farley', 'pullback'],
 		title: 'Pullback...FOR THE LOVE OF GOD'
+	},
+	'pumping-spy': {
+		filename: 'pumping-spy.png',
+		tags: ['bull', 'spy'],
+		title: 'Pumping SPY / Pumping spy'
 	},
 	'self-sabotage': {
 		filename: 'self-sabotage.png',
