@@ -1,7 +1,7 @@
 {
 	"$schema": "./schema/repo-changes.schema.json",
 	"version": 1,
-	"updated": "2026-08-07",
+	"updated": "2026-11-10",
 	"entries": {
 		"main": [
 			"Built Trader Memes as a responsive one-page gallery for 75 curated meme images.",
@@ -17,6 +17,9 @@
 			"Composed shared meme tag groups in the registry while keeping meme-specific tags inline.",
 			"Copy places the absolute meme image URL on the clipboard so Discord paste gets a shareable link.",
 			"Split image copy into separate link and PNG data strategy modules, with main wiring only the link path for now."
+		],
+		"add-pumping-spy-meme": [
+			"Added the Pumping SPY / Pumping spy meme with bull and spy search tags."
 		]
 	}
 }
