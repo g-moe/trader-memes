@@ -155,6 +155,11 @@ export const MEMES = {
 		tags: [...VWAP_TAGS],
 		title: 'Got Any VWAP?'
 	},
+	'holy-shit-it-is-vwap': {
+		filename: 'holy-shit-it-is-vwap.png',
+		tags: [...VWAP_TAGS],
+		title: 'Holy Shit It Is VWAP'
+	},
 	'i-need-a-beer': {
 		filename: 'i-need-a-beer.png',
 		tags: ['prop', 'tilt'],
